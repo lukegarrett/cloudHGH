@@ -1,0 +1,36 @@
+Floating IPs:
+	team_hgh VM : 129.114.26.85
+Start Zookeeper:
+	bin/zookeeper-server-start.sh  config/zookeeper.properties
+
+Start Kafka Service:
+	bin/kafka-server-start.sh  config/server.properties
+
+Describe All Topics:
+	bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+
+Describe Specific Topic:
+	bin/kafka-topics.sh --describe --topic hghdata--bootstrap-server localhost:9092
+
+Shell Consumer (List Data):
+	bin/kafka-console-consumer.sh --topic hghdata --from-beginning --bootstrap-server localhost:9092
+
+UFW (Linux OS Internal Firewall)
+	sudo ufw allow proto tcp from any to any port 9092
+
+Server Configuration:
+	Necessary Steps to Configure Kafka Service:
+		1) Open Security Group in Chameleon
+		2) Allow incoming rule for UFW
+		3) Allow incoming connections in server.properties
+			listeners=PLAINTEXT://9092
+			advertised.listeners=PLAINTEXT://129.114.26.85:9092	
+
+Notes:
+	Each Kafka broker must have unique 'broker.id' in server.properties
+
+
+
+
+
+
