@@ -1,16 +1,28 @@
 Floating IPs:
 	team_hgh VM : 129.114.26.85
+	AWS VM 01 : ec2-3-137-205-212.us-east-2.compute.amazonaws.com
+	AWS VM 02 : ec2-3-22-116-121.us-east-2.compute.amazonaws.com
+
+Commands for Downloading Kafka:
+	curl "https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz" -o ~/serverfiles/kafka.tgz
+	mkdir kafka
+	cd kafka
+	tar -xvzf ~/serverfiles/kafka.tgz --strip 1
+
 Start Zookeeper:
 	bin/zookeeper-server-start.sh  config/zookeeper.properties
 
 Start Kafka Service:
 	bin/kafka-server-start.sh  config/server.properties
 
+Create Topic:
+	bin/kafka-topics.sh --create --topic hghdata --bootstrap-server localhost:9092
+
 Describe All Topics:
 	bin/kafka-topics.sh --list --bootstrap-server localhost:9092
 
 Describe Specific Topic:
-	bin/kafka-topics.sh --describe --topic hghdata--bootstrap-server localhost:9092
+	bin/kafka-topics.sh --describe --topic hghdata --bootstrap-server localhost:9092
 
 Shell Consumer (List Data):
 	bin/kafka-console-consumer.sh --topic hghdata --from-beginning --bootstrap-server localhost:9092
@@ -24,7 +36,10 @@ Server Configuration:
 		2) Allow incoming rule for UFW
 		3) Allow incoming connections in server.properties
 			listeners=PLAINTEXT://9092
-			advertised.listeners=PLAINTEXT://129.114.26.85:9092	
+			advertised.listeners=PLAINTEXT://129.114.26.85:9092
+		4) Port 2181 needs to be opened for Zookeeper connections
+JVM Memory Expansion:
+	export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"	
 
 Notes:
 	Each Kafka broker must have unique 'broker.id' in server.properties
