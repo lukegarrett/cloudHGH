@@ -3,7 +3,7 @@ import json
 import time
 from kafka import KafkaProducer
 
-producer = KafkaProducer (bootstrap_servers="localhost:9092",
+producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com:9092",
                                           acks=1)
 
 with open('national-history.csv', 'r') as read_obj:
@@ -20,7 +20,5 @@ with open('national-history.csv', 'r') as read_obj:
             json_string = json.dumps(dic)
             producer.send("hghdata", value=bytes (json_string, 'ascii'))
             producer.flush()
-
-            time.sleep(1)
-
+            sleep(1)
 producer.close()
