@@ -7,7 +7,7 @@
 # Purpose:
 #    Use Kafka consumer API to stream data to CouchDB
 
-
+import json
 import os   # need this for popen
 import time # for sleep
 from kafka import KafkaConsumer  # consumer of events
@@ -32,8 +32,9 @@ db = couch['hghdata']
 
 # we keep reading and printing
 for msg in consumer:
-    #print (msg)
-    doc = msg
+    print (msg)
+    data = json.loads(msg)
+    doc = data
     db.save(doc)
 consumer.close ()
     
