@@ -22,5 +22,4 @@ with urllib2.urlopen("https://covidtracking.com/data/download/national-history.c
             json_string = json.dumps(dic)
             producer.send("hghdata", value=bytes (json_string, 'ascii'))
             producer.flush()
-            sleep(1)
 producer.close()
