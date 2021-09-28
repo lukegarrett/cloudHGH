@@ -16,7 +16,7 @@ import couchdb
 ip = "ec2-3-137-205-212.us-east-2.compute.amazonaws.com"
 # acquire consumer
 consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip))
-
+#consumer = KafkaConsumer (bootstrap_servers="localhost:9092")
 # subscribe to topic
 consumer.subscribe (topics=["hghdata"])
 
@@ -26,7 +26,7 @@ password = "teamhgh"
 conn_string  = "https://{}:{}@{}:5984".format(user, password, ip)
 print(conn_string)
 couch = couchdb.Server(conn_string)
-db = couch['hghdata']
+db = couch.create('hghdata')
 
 
 
