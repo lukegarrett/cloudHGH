@@ -15,25 +15,32 @@ import couchdb
 
 ip = "ec2-3-137-205-212.us-east-2.compute.amazonaws.com"
 # acquire consumer
-consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip))
-#consumer = KafkaConsumer (bootstrap_servers="localhost:9092")
+
+consumer = KafkaConsumer(bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com:9092", value_deserializer=lambda v: json.loads(v).decode('utf-8'))
 # subscribe to topic
 consumer.subscribe (topics=["hghdata"])
 
 # acquire couchdb server
 user = "admin"
 password = "teamhgh"
-conn_string  = "https://{}:{}@{}:5984".format(user, password, ip)
+conn_string  = "http://{}:{}@{}:5984".format(user, password, ip)
 print(conn_string)
 couch = couchdb.Server(conn_string)
-db = couch.create('hghdata')
 
+dbname = "hghdata"
+if dbname in couchserver:
+    db = couchserver[dbname]
+else:
+    db = couchserver.create(dbname)
+    
 data = {}
 
 # we keep reading and printing
 for i, msg in enumerate(consumer):
     print (msg)
     data[i] = msg
+    if (i > 15):
+        break
 db.save(data)
 print("Upload should be completed")
 consumer.close ()
