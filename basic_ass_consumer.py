@@ -33,7 +33,8 @@ else:
 # we keep reading and printing
 for msg in consumer:
     print (msg.value)
-    db.save(msg.value)
+    #db.save(msg.value)
+    db.save({'type': 'Person', 'name': 'John Doe'})
 consumer.close ()
     
 
