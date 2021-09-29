@@ -17,17 +17,20 @@ import json
 import os   # need this for popen
 import time # for sleep
 from kafka import KafkaProducer  # producer of events
+import csv
 
 # We can make this more sophisticated/elegant but for now it is just
 # hardcoded to the setup I have on my local VMs
 
 # acquire the producer
 # (you will need to change this to your bootstrap server's IP addr)
-producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com:9092", value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com:9092", value_serializer=lambda v: json.dumps(v).encode('ascii'))
 
+with open("national-history.csv", mode='r') as infile:
+    reader = csv.reader(infile)
 
 # say we send the contents 100 times after a sleep of 1 sec in between
-for i in range (10):
+    for row in reader:
     
     # get the output of the top command
     # read the contents that we wish to send as topic content
@@ -42,13 +45,15 @@ for i in range (10):
     # like <timestamp, contents of top>
     #
     #producer.send ("hghdata", value=bytes (contents, 'ascii' ))i
-    dict = {'foo': 'bar'}
-    json_dict = json.dumps(dict)
-    producer.send('hghdata', json_dict)
-    producer.flush ()   # try to empty the sending buffer
-
-    # sleep a second
-    time.sleep (1)
+        dict = {'date' : row[0], 'death' : row[1], 'deathIncrease' : row[2], 'inIcuCumulative' : row[3],
+                   'inIcuCurrently' : row[4], 'hospitalizedIncrease' : row[5], 'hospitalizedCurrently' : row[6],
+                   'hospitalizedCurrently' : row[7], 'negative' : row[8], 'negativeIncrease' : row[9],
+                   'onVentilatorCumulative' : row[10], 'onVentilatorCurrently' : row[11], 'positive' : row[12],
+                   'positiveIncrease' : row[13], 'states' : row[14], 'totalTestResults' : row[15],
+                   'totalTestResultsIncrease' : row[16]}
+        json_dict = json.dumps(dict)
+        producer.send('hghdata', json_dict)
+        producer.flush ()   # try to empty the sending buffer
 
 # we are done
 producer.close ()

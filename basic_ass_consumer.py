@@ -13,7 +13,7 @@ from kafka import KafkaConsumer  # consumer of events
 import couchdb
 
 ip = "ec2-3-137-205-212.us-east-2.compute.amazonaws.com"
-consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip), value_deserializer=lambda v: json.loads(v).encode('utf-8'))
+consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip), value_deserializer=lambda v: json.loads(v).encode('ascii'))
 
 consumer.subscribe (topics=["hghdata"])
 
@@ -33,8 +33,10 @@ else:
 # we keep reading and printing
 for msg in consumer:
     print (msg.value)
+    document = json.loads(msg.value)
     #db.save(msg.value)
-    db.save({'type': 'Person', 'name': 'John Doe'})
+    #db.save({'type': 'Person', 'name': 'John Doe'})
+    db.save(document)
 consumer.close ()
     
 
