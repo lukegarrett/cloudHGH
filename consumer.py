@@ -28,14 +28,14 @@ print(conn_string)
 couch = couchdb.Server(conn_string)
 db = couch.create('hghdata')
 
-
+data = {}
 
 # we keep reading and printing
-for msg in consumer:
+for i, msg in enumerate(consumer):
     print (msg)
-    data = json.loads(msg)
-    doc = data
-    db.save(doc)
+    data[i] = msg
+db.save(data)
+print("Upload should be completed")
 consumer.close ()
     
 
