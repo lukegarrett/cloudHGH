@@ -25,7 +25,7 @@ Describe Specific Topic:
 	bin/kafka-topics.sh --describe --topic hghdata --bootstrap-server localhost:9092
 
 Shell Consumer (List Data):
-	bin/kafka-console-consumer.sh --topic hghdata --from-beginning --bootstrap-server localhost:9092
+	bin/kafka-console-consumer.sh --topic First_Topic --from-beginning --bootstrap-server localhost:9092
 
 UFW (Linux OS Internal Firewall)
 	sudo ufw allow proto tcp from any to any port 9092
@@ -39,7 +39,60 @@ Server Configuration:
 			advertised.listeners=PLAINTEXT://129.114.26.85:9092
 		4) Port 2181 needs to be opened for Zookeeper connections
 JVM Memory Expansion:
-	export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"	
+	export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"
+
+Chamelon API Config File:
+	Append /vm3 to url
+	Add password field
+
+Ansible Configuration
+	Chameleon API Config file should be stored in .config/openstack/clouds.yaml
+		/vm3 should be appended to host name
+		password field should also be included in JSON
+	.ansible directory should be created in root directory
+		inventory file should be stored here
+	.ansible.cfg file should be stored in root directory
+
+Running Ansible
+	ansible MyChameleonVMs -m ping -u cc -i ~/.ansible/MyInventory
+		MyChameleonVMs is the alias given in inventory file
+			In the inventory file, the Alias is almost like an array of VMs so you can run module commands on a multitude of VMs at once
+		-m is the module flag, we are running the ping module
+		-u is "who is the user on the other side?" the username is cc
+		-i points to inventory file, but can be defaulted by ansible config file
+		-a is the argument flag, which passes a string of arguments, such as "path=/home/cc/join_command.txt mode=o+r"
+	ansible MyChameleonVMs -u gokhale -m openstack.cloud.server_info -a "cloud=CH-819381 server=gokhale*"
+		-u flag is set to gokhale because it is running locally instead of cloud
+		CH-819381 comes from yaml file
+
+Read/Write/Execute Flags
+	Three bits given to each group: User, Group, Other
+	First bit of three is read, second bit of three is write, third bit of three is execute
+
+CouchDB Installation:
+	1) Import GPG Key and enable repository
+		$ curl -L https://couchdb.apache.org/repo/bintray-pubkey.asc | sudo apt-key add -
+		$ echo "deb https://apache.bintray.com/couchdb-deb focal main" | sudo tee -a /etc/apt/sources.list
+		$ sudo apt update
+		$ sudo apt install couchdb
+
+		Might have to do these too: ( I had issues getting couchdb package accepted, but never had to allow unsigned packages)
+			sudo apt update && sudo apt install -y curl apt-transport-https gnupg
+			curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor | sudo tee /usr/share/keyrings/couchdb-archive-keyring.gpg >/dev/null 2>&1
+			source /etc/os-release
+			echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb/ ${VERSION_CODENAME} main" \
+   		 		| sudo tee /etc/apt/sources.list.d/couchdb.list >/dev/null
+
+	2) Setup in Standalone mode.
+		username: "admin"
+		password: "teamhgh"
+	3) Set Binding Address to 0.0.0.0
+	4) CouchDB can now be accessed remotely
+	5) You can also use these commands for starting/stopping/checking status
+		$ sudo systemctl start couchdb.service
+		$ sudo systemctl enable couchdb.service
+		$ sudo systemctl stop couchdb.service
+		$ sudo systemctl status couchdb.service
 
 Notes:
 	Each Kafka broker must have unique 'broker.id' in server.properties
