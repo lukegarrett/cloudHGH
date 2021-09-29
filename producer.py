@@ -2,13 +2,12 @@ from csv import reader
 import json
 import time
 from kafka import KafkaProducer
-import urllib2
 
-producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-#east-2.compute.amazonaws.com:9092",                                   acks=1)
+producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com:9092",                                   acks=1)
     
 #producer = KafkaProducer (bootstrap_servers="localhost:9093", acks=1)
 
-with urllib2.urlopen("https://covidtracking.com/data/download/national-history.csv") as read_obj:
+with open("national-history.csv") as read_obj:
     csv_reader = reader(read_obj)
     header = next(csv_reader)
     if header != None:
