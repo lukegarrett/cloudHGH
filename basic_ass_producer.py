@@ -23,17 +23,17 @@ from kafka import KafkaProducer  # producer of events
 
 # acquire the producer
 # (you will need to change this to your bootstrap server's IP addr)
-producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com", 
+producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-east-2.compute.amazonaws.com:9092", 
                                           acks=1)  # wait for leader to write to log
 
 # say we send the contents 100 times after a sleep of 1 sec in between
-for i in range (10):
+for i in range (100):
     
     # get the output of the top command
-    #process = os.popen ("top -n 1 -b")
+    process = os.popen ("top -n 1 -b")
 
     # read the contents that we wish to send as topic content
-    contents = "Man, does it smell like upsexy in here?"
+    contents = process.read ()
 
     # send the contents under topic utilizations. Note that it expects
     # the contents in bytes so we convert it to bytes.
@@ -43,7 +43,7 @@ for i in range (10):
     # You will need to modify it to send a JSON structure, say something
     # like <timestamp, contents of top>
     #
-    producer.send ("hghdata", value=bytes (contents, 'ascii'))
+    producer.send ("utilizations", value=bytes (contents, 'ascii'))
     producer.flush ()   # try to empty the sending buffer
 
     # sleep a second
