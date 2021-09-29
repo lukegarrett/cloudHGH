@@ -10,23 +10,30 @@
 import json
 import os   # need this for popen
 from kafka import KafkaConsumer  # consumer of events
-# import couchdb
+import couchdb
 
 ip = "ec2-3-137-205-212.us-east-2.compute.amazonaws.com"
-consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip))
+consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip), value_deserializer=lambda v: json.loads(v).encode('utf-8'))
+
 consumer.subscribe (topics=["hghdata"])
 
 # acquire couchdb server
-# user = "admin"
-# password = "teamhgh"
-# conn_string  = "https://{}:{}@{}:5984".format(user, password, ip)
-# print(conn_string)
-# couch = couchdb.Server(conn_string)
-# db = couch.create('hghdata')
+user = "admin"
+password = "teamhgh"
+conn_string  = "http://{}:{}@{}:5984".format(user, password, ip)
+print(conn_string)
+couch = couchdb.Server(conn_string)
+dbname = "hghdata"
+
+if dbname in couch:
+    db = couch[dbname]
+else:
+    db = couch.create(dbname)
 
 # we keep reading and printing
 for msg in consumer:
-    print (msg)
+    print (msg.value)
+    db.save(msg.value)
 consumer.close ()
     
 

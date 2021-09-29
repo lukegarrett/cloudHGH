@@ -25,7 +25,7 @@ user = "admin"
 password = "teamhgh"
 conn_string  = "http://{}:{}@{}:5984".format(user, password, ip)
 print(conn_string)
-couch = couchdb.Server(conn_string)
+couchserver = couchdb.Server(conn_string)
 
 dbname = "hghdata"
 if dbname in couchserver:
@@ -37,6 +37,7 @@ data = {}
 
 # we keep reading and printing
 for i, msg in enumerate(consumer):
+    print ("consumer entrypoint")
     print (msg)
     data[i] = msg
     if (i > 15):
