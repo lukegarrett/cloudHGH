@@ -2,7 +2,7 @@ from csv import reader
 import json
 import time
 from kafka import KafkaProducer
-import urllib2
+import urllib.request as urllib2
 
 producer = KafkaProducer (bootstrap_servers="ec2-3-137-205-212.us-#east-2.compute.amazonaws.com:9092",                                   acks=1)
     

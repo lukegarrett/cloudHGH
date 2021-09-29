@@ -9,7 +9,7 @@
 
 import json
 import os   # need this for popen
-# from kafka import KafkaConsumer  # consumer of events
+from kafka import KafkaConsumer  # consumer of events
 # import couchdb
 
 ip = "ec2-3-137-205-212.us-east-2.compute.amazonaws.com"
