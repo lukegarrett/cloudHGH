@@ -4,17 +4,18 @@
 # EECS 4287/5287: Principles of Cloud Computing
 # Author: Camren Hall, Luke Garrett, Safet Hoxha
 #
-- name: launch a compute instance
-  hosts: MyLocalVMs
-  tasks:       
+- hosts: MyLocalVMs
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  tasks:
     - name: launch an instance
       openstack.cloud.server:
         state: present
-        cloud: CH-819381
+        cloud: openstack
         name: teamhgh_ansible_chameleon_01
-        availability_zone: nova
         image: CC-Ubuntu20.04
-        timeout: 200
+        network: CH-819381-net
+        timeout: 500
         flavor: m1.small
         floating_ips:
           - 10.212.96.69
