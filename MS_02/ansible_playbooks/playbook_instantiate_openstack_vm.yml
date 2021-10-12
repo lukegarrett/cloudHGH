@@ -6,39 +6,35 @@
 #
 
 - name: Launch two compute instances
-- hosts: MyChameleonVMs
+- hosts: MyLocalVMs
   remote_user:  cc
   collections:
     - openstack.cloud
   tasks:
-      - name: Create Chameleon VM1 Instance
-          openstack.cloud.server:
-            state: present
-            cloud: mordred
-            name: teamhgh_ansible_chameleon_01
-            availability_zone: az2
-            image: CC-Ubuntu20.04
-            key_name: ChameleonHGH01
-            timeout: 200
-            flavor: m1.small
-            floating_ips:
-              - 10.212.96.69
-        debug:
-          msg: Chameleon VM1 Created. 
-          
-      - name: Create Chameleon VM2 Instance
-          openstack.cloud.server:
-            state: present
-            cloud: mordred
-            name: teamhgh_ansible_chameleon_02
-            availability_zone: az2
-            image: CC-Ubuntu20.04
-            key_name: ChameleonHGH01
-            timeout: 200
-            flavor: m1.small
-            floating_ips:
-              - 10.212.96.70
-        debug:
-          msg: Chameleon VM2 Created. 
+  - name: Create Chameleon VM1 Instance
+    openstack.cloud.server:
+      state: present
+      cloud: mordred
+      name: teamhgh_ansible_chameleon_01
+      availability_zone: az2
+      image: CC-Ubuntu20.04
+      #key_name: ChameleonHGH01
+      timeout: 200
+      flavor: m1.small
+      floating_ips:
+        - 10.212.96.69
+
+  - name: Create Chameleon VM2 Instance
+    openstack.cloud.server:
+      state: present
+      cloud: mordred
+      name: teamhgh_ansible_chameleon_02
+      availability_zone: az2
+      image: CC-Ubuntu20.04
+      #key_name: ChameleonHGH01
+      timeout: 200
+      flavor: m1.small
+      floating_ips:
+        - 10.212.96.70
 ...
 
