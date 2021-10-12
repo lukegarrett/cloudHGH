@@ -1,0 +1,15 @@
+- name: launch a compute instance
+  hosts: MyLocalVMs
+  tasks:
+    - name: launch an instance
+      openstack.cloud.server:
+        state: present
+        cloud: mordred
+        name: teamhgh_ansible_chameleon_01
+        availability_zone: az2
+        image: CC-Ubuntu20.04
+        #key_name: test
+        timeout: 200
+        flavor: 101
+        floating_ips:
+          - 12.34.56.69
