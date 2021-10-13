@@ -1,0 +1,26 @@
+---
+#
+# EECS 4287/5287: Principles of Cloud Computing
+# Author: Camren Hall, Luke Garrett, Safet Hoxha
+#
+- name: "Play 1: Instantiate Chameleon VM"
+  hosts: MyLocalVMs          # specified in the MyInventory file
+  remote_user:  vagrant
+  gather_facts: yes          # We ask Ansible to collect all facts
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  - include_tasks: DEMO_playbook_chameleon.yml
+
+- name: "Play 3: Master file performing several actions on cloud VMs"
+  hosts: MyChameleonVMs       # specified in the MyInventory file
+  remote_user:  cc       # change this user to what it is for the cloud
+  become: yes               # run as sudo
+  collections:               # import the plugin
+  - openstack.cloud
+
+  tasks:
+  - include_tasks: playbook_packages_install.yml
+  - include_tasks: playbook_modify_listeners.yml
+  - include_tasks: playbook_clone_and_initialize_services.yml
+
+...
+

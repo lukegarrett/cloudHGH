@@ -15,9 +15,13 @@
         name: teamhgh_ansible_chameleon_01
         image: CC-Ubuntu20.04
         network: CH-819381-net
-        timeout: 500
         flavor: m1.small
+        key_name: ChameleonHGH01
+        security_groups:
+                - 241156b1-e189-4233-aa25-d6071b67adae
+                - 06d3d681-8e74-43c7-bbe7-df96259b57ae
+        timeout: 500
         floating_ips:
-          - 10.212.96.69
+          - 129.114.25.114
 ...
 
