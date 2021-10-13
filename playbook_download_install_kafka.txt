@@ -1,0 +1,51 @@
+- hosts: (MyChameleonVMs)
+  remote_user:  cc   
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  tasks:
+    - name: Performing update
+      apt:
+        become: yes
+        become_method: sudo
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+  
+    - name: Upgrade all packages on servers
+      apt:
+        become: yes
+        become_method: sudo 
+        upgrade=dist 
+        force_apt_get=yes
+  
+    - name: Install java package
+      apt:
+        become: yes
+        become_method: sudo
+        name: openjdk-11-jre-headless
+        state: latest
+
+    - name: create Kafka directory
+      file: state=directory path=kafka
+
+    - name: Download kafka
+      get_url: url=https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz dest=kafka/kafka_2.13-2.8.1
+
+    - name: Go to Kafka directory
+      shell: "cd kafka/kafka_2.13-2.8.1"
+
+
+    - name: Extracting Kafka
+      shell: "tar -xzf kafka_2.12-0.10.2.0.tgz"
+      args:
+        executable: /bin/bash
+
+    - name: Deleting Kafka zip
+      shell: "rm kafka_2.12-0.10.2.0.tgz"
+
+    - name: Doing the java memory
+      shell: "export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"
+
+
+
+
