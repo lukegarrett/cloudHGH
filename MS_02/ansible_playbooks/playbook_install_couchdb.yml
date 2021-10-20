@@ -4,23 +4,6 @@
     - openstack.cloud
   become: yes
   tasks:
-    - name: System Update
-      apt:
-        update_cache: yes
-        upgrade: dist
-
-    - name: Setup Build Environment
-      apt:
-        name: 
-          - build-essential 
-          - pkg-config 
-          - erlang 
-          - libicu-dev 
-          - libmozjs185-dev 
-          - libcurl4-openssl-dev
-        state: latest
-        install_recommends: no
-    
     - name: Download kafka
       shell: "curl \"https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz\" -o couchdb.tgz"
 
