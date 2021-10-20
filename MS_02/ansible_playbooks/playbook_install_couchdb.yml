@@ -8,4 +8,93 @@
       shell: "wget https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz"
 
     - name: Extracting Kafka
-      shell: "tar -xf apache-couchdb-3.2.0.tar.gz --directory /usr/local/src"
+      shell: "tar -xf apache-couchdb-3.2.0.tar.gz"
+
+    - name: Configure Build
+      command: chdir=apache-couchdb-3.2.0 ./configure
+    
+    - name: Make Build
+      make:
+        chdir: apache-couchdb-3.2.0
+        target: release
+
+    - name: Deploy CouchDB
+      command: cp -R apache-couchdb-3.2.0/rel/couchdb /opt/
+
+    - name: Add CouchDB System Account
+      user:
+        name: couchdb
+        comment: "CouchDB System Account"
+        shell: /bin/bash
+        system: yes
+        home: /opt/couchdb
+        createhome: no
+
+    - name: Change CouchDB Ownership
+      file:
+        path: /opt/couchdb
+        owner: couchdb
+        group: couchdb
+        mode: 0770
+        recurse: yes
+        state: directory
+
+    - name: Change CouchDB Config File Permission
+      file:
+        path: /opt/couchdb/etc
+        owner: couchdb
+        group: couchdb
+        mode: 0644
+        recurse: yes
+        state: directory
+
+    - name: Change CouchDB Directory Permission
+      command: find /opt/couchdb -type d -exec chmod 0770 {} \;
+
+    - name: Change Node Name
+      replace:
+        dest: /opt/couchdb/etc/vm.args
+        regexp: '^-name couchdb@localhost$'
+        replace: '-name couchdb@{{ansible_enp0s8.ipv4.address}}'
+
+    - name: Set Cookie
+      replace:
+        dest: /opt/couchdb/etc/vm.args
+        regexp: '^-setcookie monster$'
+        replace: '-setcookie zaFradre6ech'
+
+    - name: Bind Cluster Address to Public
+      lineinfile:
+        dest: /opt/couchdb/etc/local.ini
+        insertafter: '^\[chttpd\]$'
+        line: 'bind_address = 0.0.0.0'
+
+    - name: Bind Node Address to Public
+      lineinfile:
+        dest: /opt/couchdb/etc/local.ini
+        insertafter: '^\[httpd\]$'
+        line: 'bind_address = 0.0.0.0'
+
+    - name: Add Admin User
+      lineinfile:
+        dest: /opt/couchdb/etc/local.ini
+        insertafter: '^\[admins\]$'
+        line: 'cadmin = password'
+
+    - name: Install CouchDB Service
+      copy:
+        src: ./couchdb.service
+        dest: /etc/systemd/system/couchdb.service
+        owner: root
+        group: root
+
+    - name: Enable CouchDB Service
+      systemd:
+        daemon-reload: yes
+        name: couchdb
+        enabled: yes
+
+    - name: Start CouchDB Service
+      systemd:
+        name: couchdb
+        state: started
