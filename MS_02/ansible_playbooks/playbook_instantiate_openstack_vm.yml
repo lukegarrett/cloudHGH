@@ -12,7 +12,6 @@
         state: present
         cloud: openstack
         name: teamhgh_ansible_chameleon_007
-        availability_zone: nova
         image: CC-Ubuntu20.04
         flavor: m1.small
         network: CH-819381-net

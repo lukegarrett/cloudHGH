@@ -1,0 +1,33 @@
+- hosts: MyChameleonVMs
+  remote_user:  cc   # change the user to whatever is the user on the cloud VM
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  become: yes
+  tasks:
+    - name: System Update
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Setup Build Environment
+      apt:
+        name: 
+          - build-essential 
+          - pkg-config 
+          - erlang 
+          - libicu-dev 
+          - libmozjs185-dev 
+          - libcurl4-openssl-dev
+        state: latest
+        install_recommends: no
+
+    - name: Download CouchDB
+      get_url:
+        url: https://dlcdn.apache.org/couchdb/source/3.2.0/apache-couchdb-3.2.0.tar.gz
+        dest: /usr/local/src
+
+    - name: Unpack CouchDB Source
+      unarchive:
+        src: /usr/local/src/apache-couchdb-2.0.0.tar.gz
+        dest: /usr/local/src
+        remote_src: yes
