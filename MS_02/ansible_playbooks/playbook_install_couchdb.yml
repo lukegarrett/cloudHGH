@@ -8,4 +8,4 @@
       shell: "curl \"https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz\" -o couchdb.tgz"
 
     - name: Extracting Kafka
-      shell: "tar -xvzf couchdb.tgz --strip 1"
+      shell: "tar -xf apache-couchdb-3.2.0.tar.gz"
