@@ -20,14 +20,9 @@
           - libcurl4-openssl-dev
         state: latest
         install_recommends: no
+    
+    - name: Download kafka
+      shell: "curl \"https://dlcdn.apache.org/couchdb/source/3.2.0/apache-couchdb-3.2.0.tar.gz\" -o couchdb.tgz"
 
-    - name: Download CouchDB
-      get_url:
-        url: https://dlcdn.apache.org/couchdb/source/3.2.0/apache-couchdb-3.2.0.tar.gz
-        dest: /usr/local/src
-
-    - name: Unpack CouchDB Source
-      unarchive:
-        src: /usr/local/src/apache-couchdb-2.0.0.tar.gz
-        dest: /usr/local/src
-        remote_src: yes
+    - name: Extracting Kafka
+      shell: "tar -xvzf couchdb.tgz --strip 1"
