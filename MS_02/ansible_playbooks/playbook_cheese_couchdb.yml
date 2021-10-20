@@ -1,0 +1,14 @@
+- hosts: MyChameleonVMs
+  remote_user:  cc   # change the user to whatever is the user on the cloud VM
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  become: yes
+  tasks:
+    - name: Config 01
+      shell: "curl -L https://couchdb.apache.org/repo/bintray-pubkey.asc | sudo apt-key add -"
+
+    - name: Config 02
+      shell: "echo "deb http://apache.jfrog.io/artifactory/couchdb-deb focal main" | sudo tee -a /etc/apt/sources.list"
+
+    - name: Config 04
+      shell: "sudo apt install couchdb"
