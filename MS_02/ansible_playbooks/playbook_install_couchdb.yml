@@ -8,4 +8,4 @@
       shell: "wget https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz"
 
     - name: Extracting Kafka
-      shell: "tar -xf apache-couchdb-3.2.0.tar.gz"
+      shell: "tar -xf apache-couchdb-3.2.0.tar.gz --directory /usr/local/src"
