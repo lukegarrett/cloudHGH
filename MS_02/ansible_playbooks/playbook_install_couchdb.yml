@@ -5,7 +5,7 @@
   become: yes
   tasks:
     - name: Download kafka
-      shell: "curl \"https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz\" -o couchdb.tgz"
+      shell: "wget https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz"
 
     - name: Extracting Kafka
       shell: "tar -xf apache-couchdb-3.2.0.tar.gz"
