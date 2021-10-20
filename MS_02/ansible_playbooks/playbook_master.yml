@@ -20,7 +20,7 @@
   tasks:
   - include_tasks: playbook_packages_install.yml
   - include_tasks: playbook_modify_listeners.yml
-  - include_tasks: playbook_clone_and_initialize_services.yml
+  - include_tasks: playbook_initialize_services.yml
 
 ...
 
