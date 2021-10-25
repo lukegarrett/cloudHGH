@@ -21,20 +21,5 @@
         timeout: 200
         floating_ips:
           - 129.114.27.209
-    - name: launch instance 02
-      openstack.cloud.server:
-        state: present
-        cloud: openstack
-        name: teamhgh_ansible_chameleon_02
-        image: CC-Ubuntu20.04
-        flavor: m1.small
-        network: CH-819381-net
-        key_name: ChameleonHGH01
-        security_groups:
-                - 241156b1-e189-4233-aa25-d6071b67adae
-                - 06d3d681-8e74-43c7-bbe7-df96259b57ae
-        timeout: 200
-        floating_ips:
-          - 129.114.25.217
 ...
 
