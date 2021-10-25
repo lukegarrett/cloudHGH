@@ -7,7 +7,7 @@
 - name: launch a compute instance
   hosts: MyLocalVMs
   tasks:       
-    - name: launch instance 01
+    - name: launch an instance
       openstack.cloud.server:
         state: present
         cloud: openstack
