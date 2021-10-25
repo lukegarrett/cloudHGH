@@ -22,12 +22,12 @@
       replace:
         path: config/server.properties
         regexp: '#listeners=PLAINTEXT://:9092'
-        replace: 'listeners=PLAINTEXT://129.114.25.114:9092'
+        replace: 'listeners=PLAINTEXT://129.114.24.248:9092'
 
     - name: Replace Advertised Listener IP
       replace:
         path: config/server.properties
         regexp: '#advertised.listeners=PLAINTEXT://your.host.name:9092'
-        replace: 'advertised.listeners=PLAINTEXT://129.114.25.114:9092'
+        replace: 'advertised.listeners=PLAINTEXT://129.114.24.248:9092'
 
 ...
