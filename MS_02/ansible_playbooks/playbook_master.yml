@@ -8,7 +8,7 @@
   remote_user:  vagrant
   gather_facts: yes          # We ask Ansible to collect all facts
   tasks:    # the task to be performed (here I am showing the effect of include_)
-  - include_tasks: DEMO_playbook_chameleon.yml
+  - include_tasks: playbook_instantiate_openstack_vm.yml
 
 - name: "Play 3: Master file performing several actions on cloud VMs"
   hosts: MyChameleonVMs       # specified in the MyInventory file
