@@ -49,4 +49,7 @@
     - name: Enable UFW TCP on 9092
       shell: "sudo ufw allow proto tcp from any to any port 9092"
 
+    - name: Enable UFW TCP on 5984
+      shell: "sudo ufw allow proto tcp from any to any port 5984"
+
 ...
