@@ -14,14 +14,7 @@
     become: yes
     #when: ansible_facts['hostname'] == "gokhale-vm3"
 
-  - name: Add couchdb repository to apt
-    apt_repository:
-      repo: "deb [signed-by=/usr/share/keyrings/couchdb-repo-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb focal main"
-      state: present
-      filename: couchdb.list
-      update_cache: no  # we do not update cache as the signing key is not added yet.
-    become: yes
-    #when: ansible_facts['hostname'] == "gokhale-vm3"
+  # need to add repo to apt here TODO
 
   # This will install couchdb without any admin, etc.
   - name: Install CouchDB
