@@ -3,98 +3,34 @@
   collections:   # this is new starting with Ansible 2.9 (akin to importing package)
     - openstack.cloud
   become: yes
+
   tasks:
-    - name: Download kafka
-      shell: "wget https://github.com/lukegarrett/cloudHGH/raw/master/apache-couchdb-3.2.0.tar.gz"
 
-    - name: Extracting Kafka
-      shell: "tar -xf apache-couchdb-3.2.0.tar.gz"
+  - name: Add Apt Key for couchdb
+    apt_key:
+      url: https://couchdb.apache.org/repo/keys.asc  # URL to retrieve from
+      state: present   # this is default
+      keyring: /usr/share/keyrings/couchdb-repo-keyring.gpg
+    become: yes
+    #when: ansible_facts['hostname'] == "gokhale-vm3"
 
-    - name: Configure Build
-      command: chdir=apache-couchdb-3.2.0 ./configure
+  - name: Add couchdb repository to apt
+    apt_repository:
+      repo: "deb [signed-by=/usr/share/keyrings/couchdb-repo-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb focal main"
+      state: present
+      filename: couchdb.list
+      update_cache: no  # we do not update cache as the signing key is not added yet.
+    become: yes
+    #when: ansible_facts['hostname'] == "gokhale-vm3"
+
+  # This will install couchdb without any admin, etc.
+  - name: Install CouchDB
+    apt:
+      name: "{{ item }}"
+      state: latest
+      update_cache: yes
+    loop:
+      - couchdb
+    become: yes
+    #when: ansible_facts['hostname'] == "gokhale-vm3"
     
-    - name: Make Build
-      make:
-        chdir: apache-couchdb-3.2.0
-        target: release
-
-    - name: Deploy CouchDB
-      command: cp -R apache-couchdb-3.2.0/rel/couchdb /opt/
-
-    - name: Add CouchDB System Account
-      user:
-        name: couchdb
-        comment: "CouchDB System Account"
-        shell: /bin/bash
-        system: yes
-        home: /opt/couchdb
-        createhome: no
-
-    - name: Change CouchDB Ownership
-      file:
-        path: /opt/couchdb
-        owner: couchdb
-        group: couchdb
-        mode: 0770
-        recurse: yes
-        state: directory
-
-    - name: Change CouchDB Config File Permission
-      file:
-        path: /opt/couchdb/etc
-        owner: couchdb
-        group: couchdb
-        mode: 0644
-        recurse: yes
-        state: directory
-
-    - name: Change CouchDB Directory Permission
-      command: find /opt/couchdb -type d -exec chmod 0770 {} \;
-
-    - name: Change Node Name
-      replace:
-        dest: /opt/couchdb/etc/vm.args
-        regexp: '^-name couchdb@localhost$'
-        replace: '-name couchdb@{{ansible_enp0s8.ipv4.address}}'
-
-    - name: Set Cookie
-      replace:
-        dest: /opt/couchdb/etc/vm.args
-        regexp: '^-setcookie monster$'
-        replace: '-setcookie zaFradre6ech'
-
-    - name: Bind Cluster Address to Public
-      lineinfile:
-        dest: /opt/couchdb/etc/local.ini
-        insertafter: '^\[chttpd\]$'
-        line: 'bind_address = 0.0.0.0'
-
-    - name: Bind Node Address to Public
-      lineinfile:
-        dest: /opt/couchdb/etc/local.ini
-        insertafter: '^\[httpd\]$'
-        line: 'bind_address = 0.0.0.0'
-
-    - name: Add Admin User
-      lineinfile:
-        dest: /opt/couchdb/etc/local.ini
-        insertafter: '^\[admins\]$'
-        line: 'cadmin = password'
-
-    - name: Install CouchDB Service
-      copy:
-        src: ./couchdb.service
-        dest: /etc/systemd/system/couchdb.service
-        owner: root
-        group: root
-
-    - name: Enable CouchDB Service
-      systemd:
-        daemon-reload: yes
-        name: couchdb
-        enabled: yes
-
-    - name: Start CouchDB Service
-      systemd:
-        name: couchdb
-        state: started
