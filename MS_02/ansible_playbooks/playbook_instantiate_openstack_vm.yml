@@ -4,22 +4,21 @@
 # EECS 4287/5287: Principles of Cloud Computing
 # Author: Camren Hall, Luke Garrett, Safet Hoxha
 #
-- hosts: MyLocalVMs
-  tasks:    
+- name: launch a compute instance
+  hosts: MyLocalVMs
+  tasks:       
     - name: launch instance 01
       openstack.cloud.server:
         state: present
         cloud: openstack
-        name: teamhgh_ansible_chameleon_01
+        name: teamhgh_ansible_chameleon_007
         image: CC-Ubuntu20.04
         flavor: m1.small
         network: CH-819381-net
         key_name: ChameleonHGH01
-        security_groups:
-                - 241156b1-e189-4233-aa25-d6071b67adae
-                - 06d3d681-8e74-43c7-bbe7-df96259b57ae
+        security_groups: 241156b1-e189-4233-aa25-d6071b67adae
         timeout: 200
         floating_ips:
-          - 129.114.27.209
+          - 129.114.25.217
 ...
 
