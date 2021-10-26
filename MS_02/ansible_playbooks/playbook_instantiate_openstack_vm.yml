@@ -16,7 +16,9 @@
         flavor: m1.medium
         network: CH-819381-net
         key_name: ChameleonHGH01
-        security_groups: 241156b1-e189-4233-aa25-d6071b67adae
+        security_groups:
+                - 241156b1-e189-4233-aa25-d6071b67adae
+                - 06d3d681-8e74-43c7-bbe7-df96259b57ae
         timeout: 200
         floating_ips:
           - 129.114.24.229
@@ -29,7 +31,9 @@
         flavor: m1.medium
         network: CH-819381-net
         key_name: ChameleonHGH01
-        security_groups: 241156b1-e189-4233-aa25-d6071b67adae
+        security_groups:
+                - 241156b1-e189-4233-aa25-d6071b67adae
+                - 06d3d681-8e74-43c7-bbe7-df96259b57ae
         timeout: 500
         floating_ips:
           - 129.114.27.39
