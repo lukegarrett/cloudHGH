@@ -14,7 +14,6 @@
     become: yes
 
   - name: Add couchdb repository to apt
-
     apt_repository:
       repo: "deb [signed-by=/usr/share/keyrings/couchdb-repo-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb focal main"
       state: present
