@@ -35,30 +35,30 @@
     when: inventory_hostname == play_hosts[0]
 
   - name: Replace CouchDB Config Port
-      replace:
-        path: /opt/couchdb/etc/local.ini
-        regexp: ';port = 5984'
-        replace: 'port = 5984'
-        become: yes
-        when: inventory_hostname == play_hosts[0]
+    replace:
+      path: /opt/couchdb/etc/local.ini
+      regexp: ';port = 5984'
+      replace: 'port = 5984'
+      become: yes
+      when: inventory_hostname == play_hosts[0]
 
   - name: Replace CouchDB Config IP
-      replace:
-        path: /opt/couchdb/etc/local.ini
-        regexp: ';bind_address = 127.0.0.1'
-        replace: 'bind_address = 0.0.0.0'
-        become: yes
-        when: inventory_hostname == play_hosts[0]
+    replace:
+      path: /opt/couchdb/etc/local.ini
+      regexp: ';bind_address = 127.0.0.1'
+      replace: 'bind_address = 0.0.0.0'
+      become: yes
+      when: inventory_hostname == play_hosts[0]
 
   - name: Replace CouchDB Config IP
-      replace:
-        path: /opt/couchdb/etc/local.ini
-        regexp: ';admin = mysecretpassword'
-        replace: 'admin = teamhgh'
-        become: yes
-        when: inventory_hostname == play_hosts[0]
+    replace:
+      path: /opt/couchdb/etc/local.ini
+      regexp: ';admin = mysecretpassword'
+      replace: 'admin = teamhgh'
+      become: yes
+      when: inventory_hostname == play_hosts[0]
 
   - name: Restart CouchDB service
-      shell: "sudo systemctl restart couchdb"
-      when: inventory_hostname == play_hosts[0]
+    shell: "sudo systemctl restart couchdb"
+    when: inventory_hostname == play_hosts[0]
     
