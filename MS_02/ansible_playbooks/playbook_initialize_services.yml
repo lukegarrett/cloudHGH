@@ -23,7 +23,7 @@
 
     - name: Start Zookeeper Service
       shell: "bin/zookeeper-server-start.sh  config/zookeeper.properties"
-      when: inventory_hostname == MyChameleonVMs[0]
+      when: inventory_hostname == play_hosts[0]
       async: 86400 #Run for 24hours
       poll: 0
 
