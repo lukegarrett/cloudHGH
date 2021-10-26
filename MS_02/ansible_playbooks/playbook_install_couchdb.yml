@@ -12,6 +12,7 @@
       state: present   # this is default
       keyring: /usr/share/keyrings/couchdb-repo-keyring.gpg
     become: yes
+    when: inventory_hostname == play_hosts[0]
 
   - name: Add couchdb repository to apt
     apt_repository:
@@ -20,6 +21,7 @@
       filename: couchdb.list
       update_cache: no  # we do not update cache as the signing key is not added yet.
     become: yes
+    when: inventory_hostname == play_hosts[0]
 
   # This will install couchdb without any admin, etc.
   - name: Install CouchDB
@@ -30,4 +32,5 @@
     loop:
       - couchdb
     become: yes
+    when: inventory_hostname == play_hosts[0]
     
