@@ -20,7 +20,7 @@
                 - 241156b1-e189-4233-aa25-d6071b67adae
         timeout: 200
         floating_ips:
-          - 129.114.25.201
+          - 129.114.24.229
     - name: Launch Instance 02
       openstack.cloud.server:
         state: present
@@ -34,6 +34,6 @@
                 - 241156b1-e189-4233-aa25-d6071b67adae
         timeout: 500
         floating_ips:
-          - 129.114.25.199
+          - 129.114.27.39
 ...
 
