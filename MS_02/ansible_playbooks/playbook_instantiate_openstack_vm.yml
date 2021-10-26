@@ -19,8 +19,7 @@
         security_groups:
                 - 241156b1-e189-4233-aa25-d6071b67adae
         timeout: 200
-        floating_ips:
-          - 129.114.25.101
+        auto_ip: yes
     - name: Launch Instance 02
       openstack.cloud.server:
         state: present
@@ -33,7 +32,16 @@
         security_groups:
                 - 241156b1-e189-4233-aa25-d6071b67adae
         timeout: 500
-        floating_ips:
-          - 129.114.25.109
+        auto_ip: yes
+    - name: Gather Facts
+      openstack.cloud.server_info:
+        cloud: openstack
+        server: teamhgh*
+        filters:
+          vm_state: active
+      register: result
+      debug:
+        msg: "{{ result.openstack_servers }}"
+        
 ...
 
