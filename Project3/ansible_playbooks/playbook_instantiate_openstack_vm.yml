@@ -1,0 +1,39 @@
+---
+#
+# Chameleon Cloud Openstack VM Ansible Playbook
+# EECS 4287/5287: Principles of Cloud Computing
+# Author: Camren Hall, Luke Garrett, Safet Hoxha
+#
+- name: Launching Openstack Compute Instances
+  hosts: MyLocalVMs
+  tasks:       
+    - name: Launch Instance 01
+      openstack.cloud.server:
+        state: present
+        cloud: openstack
+        name: teamhgh_ansible_chameleon_007
+        image: CC-Ubuntu20.04
+        flavor: m1.medium
+        network: CH-819381-net
+        key_name: ChameleonHGH01
+        security_groups:
+                - ENABLE_KAFKA_COUCHDB
+        timeout: 200
+        floating_ips:
+          - 129.114.24.229
+    - name: Launch Instance 02
+      openstack.cloud.server:
+        state: present
+        cloud: openstack
+        name: teamhgh_ansible_chameleon_008
+        image: CC-Ubuntu20.04
+        flavor: m1.medium
+        network: CH-819381-net
+        key_name: ChameleonHGH01
+        security_groups:
+                - ENABLE_KAFKA_COUCHDB
+        timeout: 500
+        floating_ips:
+          - 129.114.27.39
+...
+
