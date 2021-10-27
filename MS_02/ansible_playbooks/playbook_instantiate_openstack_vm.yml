@@ -5,7 +5,6 @@
 # Author: Camren Hall, Luke Garrett, Safet Hoxha
 #
 - name: Launching Openstack Compute Instances
-  hosts: MyLocalVMs
   tasks:       
     - name: Launch Instance 01
       openstack.cloud.server:
