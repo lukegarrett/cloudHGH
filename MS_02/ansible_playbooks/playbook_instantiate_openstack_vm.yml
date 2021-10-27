@@ -4,7 +4,6 @@
 # EECS 4287/5287: Principles of Cloud Computing
 # Author: Camren Hall, Luke Garrett, Safet Hoxha
 #
-- name: Launching Openstack Compute Instances
   tasks:       
     - name: Launch Instance 01
       openstack.cloud.server:
