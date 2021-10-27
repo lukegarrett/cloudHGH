@@ -10,8 +10,8 @@
 # See https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
   - tasks:
       name: Performing update
-        apt:
-          update_cache: yes
+      apt:
+        update_cache: yes
     
       name: Install java package
         apt:
