@@ -76,8 +76,8 @@
   # above, we simply import the tasks (could have included) and these
   # tasks are in the playbooks defined in my tasks/ directory
   tasks:
-  - import_tasks: playbook_packages_install.yml
-  - import_tasks: playbook_initialize_services.yml
-  - import_tasks: playbook_install_couchdb.yml
+  - include_tasks: playbook_packages_install.yml
+  - include_tasks: playbook_initialize_services.yml
+  - include_tasks: playbook_install_couchdb.yml
 ...
 

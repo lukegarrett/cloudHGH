@@ -8,32 +8,40 @@
 # This playbook will execute a command on the remote machine
 # Horizon Cloud VM or Chameleon VMs or AWS VMs
 # See https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
-  - tasks:
-      name: Performing update
+  remote_user:  cc   # change the user to whatever is the user on the cloud VM
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  become: yes
+
+  # here we use the command module. There is also the shell module to do similar
+  # outcome especially when you want to run a shell script, and there are more
+  # complex arguments including executing in specific directories.
+  tasks:
+    - name: Performing update
       apt:
         update_cache: yes
-    
-      name: Install java package
+  
+    - name: Install java package
       apt:
         name: openjdk-11-jre-headless
         state: latest
 
-      name: Remove Kafka dir
+    - name: Remove Kafka dir
       shell: "rm -rf kafka"
 
-      name: Create Kafka dir
+    - name: Create Kafka dir
       shell: "mkdir kafka"
 
-      name: Download kafka
+    - name: Download kafka
       shell: "curl \"https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz\" -o ./kafka/kafka.tgz"
 
-      name: Extracting Kafka
+    - name: Extracting Kafka
       shell: "tar -xvzf kafka/kafka.tgz --strip 1"
 
-      name: Enable UFW TCP on 9092
+    - name: Enable UFW TCP on 9092
       shell: "sudo ufw allow proto tcp from any to any port 9092"
 
-      name: Enable UFW TCP on 5984
+    - name: Enable UFW TCP on 5984
       shell: "sudo ufw allow proto tcp from any to any port 5984"
 
 ...
