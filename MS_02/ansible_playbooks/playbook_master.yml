@@ -31,7 +31,7 @@
 #
 # Here I show the use of include_tasks from child playbooks
 #####################################################
-- name: "Play 1: Perform VM initialization"
+- name: "Play 1: Perform fact gathering on all VMs"
   hosts: MyLocalVMs          # specified in the MyInventory file
   remote_user:  vagrant      # note that the user is ubuntu for 
                              # vagrant-created VM else use the
@@ -43,10 +43,30 @@
   tasks:    # the task to be performed (here I am showing the effect of include_)
   - include_tasks: playbook_instantiate_openstack_vm.yml
 
-
-- name: "Play 2: Master file performing several actions on cloud VMs"
+###########################################
+# Play 3: Now perform some activities on our cloud VMs
+#
+# Now perform some activities on cloud VMs
+# Note, that I could not have combined these with the Play 2
+# because Play 2 activities were performed on MyLocalVMs
+# while these are on MyChameleonVMs
+#
+# Feel free to replace import_ with include_ and you will notice
+# that ansible will dynamically include those tasks instead of
+# statically doing it.
+#
+# One way to find this out is to purposefully make some mistake
+# in child playbook (say wrong indentation). The import_ statement
+# will give an error at parsing time while include_ will give error
+# only while running the play
+###########################################
+# If we define the hosts param here, then we cannot define it
+# again in the playbook that we include or import because there will
+# be a conflict. 
+- name: "Play 3: Master file performing several actions on cloud VMs"
   hosts: MyChameleonVMs       # specified in the MyInventory file
   remote_user:  cc       # change this user to what it is for the cloud
+  strategy: debug        # start a debugger on error
   become: yes               # run as sudo
   collections:               # import the plugin
   - openstack.cloud
@@ -56,8 +76,8 @@
   # above, we simply import the tasks (could have included) and these
   # tasks are in the playbooks defined in my tasks/ directory
   tasks:
-  - include_tasks: playbook_packages_install.yml
-  - include_tasks: playbook_initialize_services.yml
-  - include_tasks: playbook_install_couchdb.yml
+  - import_tasks: playbook_packages_install.yml
+  - import_tasks: playbook_initialize_services.yml
+  - import_tasks: playbook_install_couchdb.yml
 ...
 
