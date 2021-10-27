@@ -1,8 +1,8 @@
 tasks:
-    - name: Update clitoris
+    - name: Update Aptitude
       shell: "sudo apt update"
 
-    - name: docking
+    - name: Install Docker
       shell: "sudo apt install docker.io"
 
     - name: Docker mod
@@ -11,26 +11,23 @@ tasks:
         regexp: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock'
         replace: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd'
     
-    - name: daemon-reload
-      shell: "sudo systemctl daemon-reload"
+    - name: Start Docker Service
+      shell: "sudo systemctl start docker"
 
-    - name: docker restart
-      shell: "sudo systemctl restart docker" 
+    - name: Enable Docker Service
+      shell: "sudo systemctl enable docker" 
 
-    - name: Update clitoris
-      shell: "sudo apt update"
-
-    - name: install curl
+    - name: Install Curl
       shell: "sudo apt install -y apt-transport-https ca-certificates curl"
 
-    - name: olympic curling team
+    - name: Curl Kubernetes Key
       shell: "sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg"
 
-    - name: juiced out fam
+    - name: Add Kubernetes Key
       shell: "echo \"deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-focal main\" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list" 
-    
-    - name: Update clitoris
-      shell: "sudo apt update"
 
-    - name: install kubernete
+    - name: Install Kubernetes
       shell: "sudo apt install kubeadm kubelet kubectl kubernetes-cni"  
+
+    - name: Disable Swap
+      shell: "sudo swapoff -a" 
