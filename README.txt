@@ -2,6 +2,8 @@ Luke Garrett
 Camren Hall
 Safet Hoxha
 
+https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+
 Teamwork:
 Because this was our first project we performed the majority of the tasks together in order to familiarize ourselves with working in the cloud.
 
