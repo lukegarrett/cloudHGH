@@ -16,7 +16,9 @@
 #
 # Here I show the use of import_tasks from child playbooks
 #####################################################
-- name: "Play 1: Perform fact gathering on all VMs"
+
+
+- name: "Play 1: Instantiate VMs"
   hosts: MyLocalVMs          # specified in the MyInventory file
   remote_user:  ubuntu      # note that the user is ubuntu for 
                              # vagrant-created VM else use the
@@ -24,10 +26,12 @@
 
   gather_facts: yes          # We ask Ansible to collect all facts
   become_user: no            # No need for sudo as we are not installing anything
-
   tasks:    # the task to be performed (here I am showing the effect of include_)
-  - include_tasks: tasks/playbook_get_facts_local_vm.yml
-  - include_tasks: tasks/playbook_get_facts_cloud_vm.yml
+  - include_tasks: playbook_create_vms.yml
 
-...
-
+- name: "Play 2: Create Kubernetes Cluster w/ Master"
+  hosts: MyMasterNode
+  remote_user:  cc
+  gather_facts: yes
+  tasks:
+  - include_tasks: playbook_kubernetes_master.yml

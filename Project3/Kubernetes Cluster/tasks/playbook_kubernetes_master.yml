@@ -1,0 +1,25 @@
+---
+#
+# Author: Camren Hall, Luke Garrett, Safet Hoxha
+# EECS 4287/5287: Principles of Cloud Computing
+# Created: Fall 2021
+#
+# In this playbook we instantiate our Chameleon Cloud Virtual Machines
+#
+  - name: Install Docker
+    apt:
+        name: docker.io
+        state: latest
+        update_cache: yes
+    become: yes
+    become_user: root
+
+  - name: Docker Mod
+    replace:
+        path: /lib/systemd/system/docker.service
+        regexp: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock'
+        replace: 'ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd'
+    become: yes
+    become_user: root
+...
+
