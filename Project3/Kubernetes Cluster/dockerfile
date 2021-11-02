@@ -6,7 +6,7 @@ RUN apt-get update
 RUN apt-get install curl -y
 RUN curl -o tmp.tgz "https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz"
 RUN tar -xvzf tmp.tgz
-RUN kafka_2.13-2.8.1.tgz/bin/zookeeper-server-start.sh  kafka_2.13-2.8.1.tgz/config/zookeeper.properties --override listeners=PLAINTEXT://:9092
+RUN bin/zookeeper-server-start.sh  kafka_2.13-2.8.1.tgz/config/zookeeper.properties --override listeners=PLAINTEXT://:9092
 RUN kafka_2.13-2.8.1.tgz/bin/kafka-server-start.sh  kafka_2.13-2.8.1.tgz/config/server.properties
 RUN kafka_2.13-2.8.1.tgz/bin/kafka-topics.sh --create --topic hghdata --bootstrap-server localhost:9092
 
