@@ -4,7 +4,8 @@ ENV KAFKA_DOWNLOAD_URL https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz
 
 RUN apt-get update
 RUN apt-get install curl -y
-RUN apt-get install default-jre
+RUN apt-get install default-jre -y
+RUN apt-get install python3 -y
 RUN curl -o tmp.tgz "https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz"
 RUN tar -xvzf tmp.tgz
 RUN ./kafka_2.13-2.8.1/bin/zookeeper-server-start.sh  ./kafka_2.13-2.8.1/config/zookeeper.properties --override listeners=PLAINTEXT://:9092
