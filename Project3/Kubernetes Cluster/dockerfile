@@ -3,6 +3,7 @@ FROM ubuntu:bionic
 ENV KAFKA_DOWNLOAD_URL https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz
 
 RUN apt-get update
+RUN apt-get install curl
 RUN curl "$KAFKA_DOWNLOAD_URL" -o ./kafka/kafka.tgz
 RUN tar -xvzf kafka/kafka.tgz --strip 1
 RUN bin/zookeeper-server-start.sh  config/zookeeper.properties --override listeners=PLAINTEXT://:9092
