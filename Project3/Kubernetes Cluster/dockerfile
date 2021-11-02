@@ -4,11 +4,11 @@ ENV KAFKA_DOWNLOAD_URL https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz
 
 RUN apt-get update
 RUN apt-get install curl -y
-RUN curl "https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz" -o ./kafka/kafka.tgz
-RUN tar -xvzf kafka/kafka.tgz --strip 1
-RUN bin/zookeeper-server-start.sh  config/zookeeper.properties --override listeners=PLAINTEXT://:9092
-RUN bin/kafka-server-start.sh  config/server.properties
-RUN bin/kafka-topics.sh --create --topic hghdata --bootstrap-server localhost:9092
+RUN curl "https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz" -o tmp.tgz
+RUN tar -xvzf tmp.tgz
+RUN kafka_2.13-2.8.1.tgz/bin/zookeeper-server-start.sh  kafka_2.13-2.8.1.tgz/config/zookeeper.properties --override listeners=PLAINTEXT://:9092
+RUN kafka_2.13-2.8.1.tgz/bin/kafka-server-start.sh  kafka_2.13-2.8.1.tgz/config/server.properties
+RUN kafka_2.13-2.8.1.tgz/bin/kafka-topics.sh --create --topic hghdata --bootstrap-server localhost:9092
 
 # 2181 is zookeeper, 9092 is kafka
 EXPOSE 2181 9092
