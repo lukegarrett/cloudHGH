@@ -15,4 +15,4 @@ RUN tar -xvzf tmp.tgz
 # 2181 is zookeeper, 9092 is kafka, 30000 is outward facing
 EXPOSE 2181 9092 30000
 
-CMD ./kafka_2.13-2.8.1/bin/kafka-server-start.sh  ./kafka_2.13-2.8.1/config/server.properties --override listeners=PLAINTEXT://localhost:9092 --override advertised.listeners=PLAINTEXT://localhost:9092
+CMD ./kafka_2.13-2.8.1/bin/kafka-server-start.sh  ./kafka_2.13-2.8.1/config/server.properties --override listeners=PLAINTEXT://localhost:30000 --override advertised.listeners=PLAINTEXT://localhost:30000

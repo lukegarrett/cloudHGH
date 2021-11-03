@@ -7,7 +7,7 @@ kind: Deployment         # We are testing the Deployment resource
 metadata:
   name: kafka-master-deployment  # A name must be given to the deployment in the metadata section
 spec:                     # This is the specification where we can even put the number of replicas
-  replicas: 3             # Say we want to run 3 replicas of nginx
+  replicas: 1             # Say we want to run 3 replicas of nginx
   selector:
     matchLabels:
       app: kafka-master          # Basically this is like the search string used to locate the pods
