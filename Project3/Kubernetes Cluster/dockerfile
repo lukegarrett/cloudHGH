@@ -15,4 +15,4 @@ RUN tar -xvzf tmp.tgz
 # 2181 is zookeeper, 9092 is kafka
 EXPOSE 2181 9092
 
-CMD ./start_zookeeper_and_kafka.sh
+CMD start_zookeeper_and_kafka.sh
