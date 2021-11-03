@@ -12,15 +12,16 @@ import os   # need this for popen
 from kafka import KafkaConsumer  # consumer of events
 import couchdb
 
-ip = "ec2-3-137-205-212.us-east-2.compute.amazonaws.com"
-consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip), value_deserializer=lambda v: json.loads(v).encode('ascii'))
+ip_kafka = "172.17.0.6"
+ip_couchdb = "172.17.0.7"
+consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip_kafka), value_deserializer=lambda v: json.loads(v).encode('ascii'))
 
 consumer.subscribe (topics=["hghdata"])
 
 # acquire couchdb server
 user = "admin"
-password = "teamhgh"
-conn_string  = "http://{}:{}@{}:5984".format(user, password, ip)
+password = "password"
+conn_string  = "http://{}:{}@{}:5984".format(user, password, ip_couchdb)
 print(conn_string)
 couch = couchdb.Server(conn_string)
 dbname = "hghdata"
