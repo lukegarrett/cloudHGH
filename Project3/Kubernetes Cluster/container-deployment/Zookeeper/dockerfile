@@ -12,6 +12,6 @@ RUN tar -xvzf tmp.tgz
 #RUN ./kafka_2.13-2.8.1/bin/kafka-topics.sh --create --topic hghdata --bootstrap-server localhost:9092
 
 # 2181 is zookeeper, 9092 is kafka
-EXPOSE 2181 9092
+EXPOSE 2181 9092 30005
 
 CMD ./kafka_2.13-2.8.1/bin/zookeeper-server-start.sh  ./kafka_2.13-2.8.1/config/zookeeper.properties
