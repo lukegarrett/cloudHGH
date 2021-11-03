@@ -1,0 +1,1 @@
+docker run -d --name my-couchdb couchdb:latest

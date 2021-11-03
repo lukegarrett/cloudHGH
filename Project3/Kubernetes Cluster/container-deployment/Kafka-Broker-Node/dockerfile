@@ -1,0 +1,18 @@
+FROM ubuntu:bionic
+# Kafka and Zookeeper
+ENV KAFKA_DOWNLOAD_URL https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz
+
+RUN apt-get update
+RUN apt-get install curl -y
+RUN apt-get install default-jre -y
+RUN apt-get install python3 -y
+RUN curl -o tmp.tgz "https://dlcdn.apache.org/kafka/2.8.1/kafka_2.13-2.8.1.tgz"
+RUN tar -xvzf tmp.tgz
+# RUN ./kafka_2.13-2.8.1/bin/zookeeper-server-start.sh  ./kafka_2.13-2.8.1/config/zookeeper.properties
+# RUN ./kafka_2.13-2.8.1/bin/kafka-server-start.sh  ./kafka_2.13-2.8.1/config/server.properties --override listeners=PLAINTEXT://:9092
+# RUN ./kafka_2.13-2.8.1/bin/kafka-topics.sh --create --topic hghdata --bootstrap-server localhost:9092
+
+# 2181 is zookeeper, 9092 is kafka, 30001 is outward facing
+EXPOSE 2181 9092 30001
+
+CMD CMD ./kafka_2.13-2.8.1/bin/kafka-server-start.sh  ./kafka_2.13-2.8.1/config/server.properties --override listeners=PLAINTEXT://localhost:9092 --override advertised.listeners=PLAINTEXT://localhost:9092 --override zookeeper.connect=localhost:2181
