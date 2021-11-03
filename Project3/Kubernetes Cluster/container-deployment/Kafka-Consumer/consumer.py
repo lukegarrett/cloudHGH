@@ -14,7 +14,7 @@ import couchdb
 
 ip_kafka = "172.17.0.6"
 ip_couchdb = "172.17.0.7"
-consumer = KafkaConsumer (bootstrap_servers="{}:9092".format(ip_kafka), value_deserializer=lambda v: json.loads(v).encode('ascii'))
+consumer = KafkaConsumer (bootstrap_servers="{}:9093".format(ip_kafka), value_deserializer=lambda v: json.loads(v).encode('ascii'))
 
 consumer.subscribe (topics=["hghdata"])
 
