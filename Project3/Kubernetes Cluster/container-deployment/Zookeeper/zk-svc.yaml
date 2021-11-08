@@ -1,0 +1,11 @@
+---
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: zk-svc  # A name must be given to the deployment in the metadata section  
+selector:
+  app: zkApp      # Basically this is like the search string used to locate the pods
+ports:
+  - port: 2181
+    targetPort: 2181
+
