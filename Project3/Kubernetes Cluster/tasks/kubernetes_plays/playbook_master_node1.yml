@@ -1,0 +1,121 @@
+- hosts: MyMasterNode
+  remote_user:  cc   # change the user to whatever is the user on the cloud VM
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  
+  
+  tasks: 
+  - name: changing cloud.cfg
+    become: yes
+    replace:
+      path: /etc/cloud/cloud.cfg
+      regexp: 'manage_etc_hosts: true'
+      replace: 'manage_etc_hosts: false'
+  
+  - name: Add vagrant user to docker group
+    user:
+      name: vagrant
+      group: docker
+  - name: Add Entry to Hosts File (MASTER)
+    become: yes
+    become_user: root
+    replace:
+      path: /etc/hosts
+      regexp: '127.0.0.1 localhost'
+      replace: '127.0.0.1 localhost\n{{ play_hosts[0] }} kubemaster kubeworker1'
+
+  - name: Disable swap
+    command: swapoff -a
+  - name: Enable UFW TCP on 2379-2380S
+
+    shell: "sudo ufw allow proto tcp from any to any port 2379:2380"
+
+  - name: Enable UFW TCP on 4040
+    shell: "sudo ufw allow proto tcp from any to any port 4040"
+
+  - name: Enable UFW TCP on 5000
+    shell: "sudo ufw allow proto tcp from any to any port 5000"
+      
+  - name: Enable UFW TCP on 6443
+    shell: "sudo ufw allow proto tcp from any to any port 6443"
+      
+  - name: Enable UFW TCP on 7076:7079
+    shell: "sudo ufw allow proto tcp from any to any port 7076:7079"
+      
+  - name: Enable UFW TCP on 8001
+    shell: "sudo ufw allow proto tcp from any to any port 8001"
+      
+  - name: Enable UFW TCP on 8080:8081
+    shell: "sudo ufw allow proto tcp from any to any port 8080:8081"
+  - name: Enable UFW TCP on 10250
+    shell: "sudo ufw allow proto tcp from any to any port 10250"
+      
+  - name: Enable UFW TCP on 10251
+    shell: "sudo ufw allow proto tcp from any to any port 10251"
+
+  - name: Enable UFW TCP on 10252
+    shell: "sudo ufw allow proto tcp from any to any port 10252"  
+  - name: Enable UFW TCP on 300000:30010
+    shell: "sudo ufw allow proto tcp from any to any port 30000:30010"
+
+  - name: Enable UFW TCP on 8285
+    shell: "sudo ufw allow proto udp from any to any port 8285"
+  - name: Enable UFW TCP on 8472
+    shell: "sudo ufw allow proto udp from any to any port 8472"
+
+  - name: changing cloud.cfg
+    replace:
+      path: /etc/default/ufw
+      regexp: 'IPV6=yes'
+      replace: 'IPV6=no'
+  - name: reload ufw
+    shell: "sudo ufw reload"    
+
+  - name: Initialize the Kubernetes cluster using kubeadm
+    command: sudo kubeadm init --node-name kubemaster --pod-network-cidr=10.244.0.0/16
+
+  
+  # - name: Setup kubeconfig for vagrant user
+  #   command: "{{ item }}"
+  #   with_items:
+  #   - mkdir -p $HOME/.kube
+  #   - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  #   - sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+  - name: mkdir
+    shell: mkdir -p $HOME/.kube
+  - name: copy
+    shell: sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+  - name: chown
+    shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config  
+  - name: print ls  
+    shell: ls -l $HOME/.kube
+    register: output
+  - name: display output   
+    debug: 
+      var: output.stdout_lines  
+  # - name: setup config mkdir
+  #   shell:  "mkdir -p /home/vagrant/.kube"
+  # - name: setup sudo cp /etc/kubernetes/admin.conf home/.kube/config
+  #   shell: "sudo cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config"
+  # - name: sudo chown vagrant:docker home/.kube/config
+  #   shell: "sudo chown vagrant:docker home/.kube/config"
+  # - name: export
+  #   shell: "export KUBECONFIG=$HOME/admin.conf"
+
+  
+
+  - name: Setup the container networking provider and the network policy engine
+    command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+  - name: Taint Master Node
+    shell: "kubectl taint nodes kubemaster node-role.kubernetes.io/master:NoSchedule-"  
+
+  - name: Generate join command
+    command: kubeadm token create --print-join-command
+    register: join_command
+    
+
+  - name: Copy join command to local file
+    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+
