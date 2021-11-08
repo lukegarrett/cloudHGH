@@ -6,10 +6,7 @@ metadata:
 selector:
   app: zkApp      # Basically this is like the search string used to locate the pods
 ports:
-  containers:
-      - name: zk-svc       # Used by DNS
-        image: zookeeper   # this is the image name on hub.docker or if you have one locally. We use an older
-                          # and then show how we can upgrade to newer version
-        ports:            # Since nginx is a web server, we let it listen on port 80 in the container
-        - containerPort: 2181
+  - port: 2181
+    targetPort: 2181
 ...
+
