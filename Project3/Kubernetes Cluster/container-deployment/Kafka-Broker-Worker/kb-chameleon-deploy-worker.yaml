@@ -16,5 +16,4 @@ spec:                     # This is the specification where we can even put the 
     port: 9092
     targetPort: 9092
     nodePort: 30000
-
 ...

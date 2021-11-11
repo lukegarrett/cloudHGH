@@ -1,0 +1,14 @@
+---
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: kb0-svc  # A name must be given to the deployment in the metadata section  
+selector:
+  app: kb0App     # Basically this is like the search string used to locate the pods
+spec:  
+  ports:
+    - port: 9092
+      targetPort: 9092
+      nodePort: 30000
+...
+
