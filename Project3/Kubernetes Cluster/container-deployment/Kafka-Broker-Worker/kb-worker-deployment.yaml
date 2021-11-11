@@ -1,0 +1,33 @@
+---
+# This is a declarative approach to describe a Kubernetes based
+# deployment of an application.  Since this is YAML, the indentation
+# is very important
+apiVersion: apps/v1
+kind: Deployment         # We are testing the Deployment resource
+metadata:
+  name: kb1-deploy  # A name must be given to the deployment in the metadata section
+spec:                     # This is the specification where we can even put the number of replicas
+  replicas: 1             # Say we want to run 3 replicas of nginx
+  selector:
+    matchLabels:
+      app: kb1App          # Basically this is like the search string used to locate the pods
+  minReadySeconds: 5  # if anything crashes before 5 secs, the deployment is not
+                          # considered as ready and available. Default value is 0
+  template:               # Specified info needed to run the pod and what runs in the pod
+    metadata:
+      labels:
+        app: kb1App        # some label to give to this pod (see the matching label above)
+    spec:                 # actual specification
+      hostname: kb1-host
+      nodeSelector:
+        kubernetes.io/hostname: teamhgh-ansible-chameleon-007
+      containers:
+      - name: kb1       # Used by DNS
+        image: kb0-image   # this is the image name on hub.docker or if you have one locally. We use an older
+                          # and then show how we can upgrade to newer version
+        imagePullPolicy: Never                  
+        ports:            # Since nginx is a web server, we let it listen on port 80 in the container
+        - containerPort: 9092
+        command: ["kafka_2.13-2.8.1/bin/kafka-server-start.sh"]
+        args: ["kafka_2.13-2.8.1/config/server.properties", "--override", "broker.id=1", "--override", "advertised.listeners=PLAINTEXT://129.114.24.229:30000", "--override", "zookeeper.connect=zk-svc:2181"]
+...
