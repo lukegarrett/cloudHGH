@@ -25,8 +25,10 @@ spec:                     # This is the specification where we can even put the 
       - name: kb0       # Used by DNS
         image: kb0-image   # this is the image name on hub.docker or if you have one locally. We use an older
                           # and then show how we can upgrade to newer version
+        imagePullPolicy: Never                  
         ports:            # Since nginx is a web server, we let it listen on port 80 in the container
         - containerPort: 9092
         command: ["kafka_2.13-2.8.1/bin/kafka-server-start.sh"]
         args: ["kafka_2.13-2.8.1/config/server.properties", "--override", "broker.id=0", "--override", "listeners=PLAINTEXT://9092", "--override", "advertised.listeners=PLAINTEXT://129.114.27.39:30000", "--override", "zookeeper.connect=zk-svc:2181"]
+      restartPolicy: Never
 ...
