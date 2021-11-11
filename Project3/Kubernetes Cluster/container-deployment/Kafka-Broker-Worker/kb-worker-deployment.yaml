@@ -29,5 +29,5 @@ spec:                     # This is the specification where we can even put the 
         ports:            # Since nginx is a web server, we let it listen on port 80 in the container
         - containerPort: 9092
         command: ["kafka_2.13-2.8.1/bin/kafka-server-start.sh"]
-        args: ["kafka_2.13-2.8.1/config/server.properties", "--override", "broker.id=1", "--override", "advertised.listeners=PLAINTEXT://129.114.24.229:30000", "--override", "zookeeper.connect=zk-svc:2181"]
+        args: ["kafka_2.13-2.8.1/config/server.properties", "--override", "broker.id=1", "--override", "advertised.listeners=PLAINTEXT://129.114.24.229:30001", "--override", "zookeeper.connect=zk-svc:2181"]
 ...
