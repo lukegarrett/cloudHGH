@@ -1,0 +1,22 @@
+zookeeper
+
+	zookeeper service name was just in metadata
+
+kafka broker
+	
+	nodeport only used when exposing to outside world
+		used only for kafka, couchdb
+	advertised listeners will be floatingIP:30000 (or relevant port)
+	zookeeper-connect override will be name of metadata zookeeper service:2181
+	nodeport maps to targ4
+	nodeselector determines which VM the pod is going to run on (kubemaster/kubeworker)
+
+CouchDB
+	
+	host path persistent volume
+	headless service
+		clusterIP:none
+		very similar to zookeper service otherwise
+	statefulset kind
+	set environment variables to inject for user and pass
+	look up expose statefulset kubernetes
