@@ -30,5 +30,4 @@ spec:                     # This is the specification where we can even put the 
         - containerPort: 2181
         command: ["kafka_2.13-2.8.1/bin/zookeeper-server-start.sh"]
         args: ["kafka_2.13-2.8.1/config/zookeeper.properties"]
-      restartPolicy: Never
 ...
