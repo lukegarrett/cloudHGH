@@ -23,7 +23,7 @@ spec:                     # This is the specification where we can even put the 
         kubernetes.io/hostname: kubemaster
       containers:
       - name: couch       # Used by DNS
-        env:
+        environment:
         - COUCHDB_USER: admin
           COUCHDB_PASSWORD: cloudhgh
         image: bitnami/couchdb:latest   # this is the image name on hub.docker or if you have one locally. We use an older
