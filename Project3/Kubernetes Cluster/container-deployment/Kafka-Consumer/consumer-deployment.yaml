@@ -2,7 +2,7 @@
 # This is a declarative approach to describe a Kubernetes based
 # deployment of an application.  Since this is YAML, the indentation
 # is very important
-apiVersion: v1
+apiVersion: batch/v1
 kind: Job         # We are testing the Deployment resource
 metadata:
   name: consumer-deploy  # A name must be given to the deployment in the metadata section
@@ -22,7 +22,7 @@ spec:                     # This is the specification where we can even put the 
       nodeSelector:
         kubernetes.io/hostname: teamhgh-ansible-chameleon-007
       containers:
-      - name: consumer       # Used by DNS  
+      - name: consumer       # Used by DNS
         image: camrenhall/cloudhgh:kbcon-image   # this is the image name on hub.docker or if you have one locally. We use an older
                           # and then show how we can upgrade to newer version
         imagePullPolicy: Always                  
