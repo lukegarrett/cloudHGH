@@ -24,7 +24,7 @@ import csv
 
 # acquire the producer
 # (you will need to change this to your bootstrap server's IP addr)
-producer = KafkaProducer (bootstrap_servers="129.114.27.39:30000", value_serializer=lambda v: json.dumps(v).encode('ascii'))
+producer = KafkaProducer (bootstrap_servers="129.114.24.229:30000", value_serializer=lambda v: json.dumps(v).encode('ascii'))
 
 with open("national-history.csv", mode='r') as infile:
     reader = csv.reader(infile)
