@@ -23,9 +23,11 @@ spec:                     # This is the specification where we can even put the 
         kubernetes.io/hostname: kubemaster
       containers:
       - name: couch       # Used by DNS
-        environment:
-        - COUCHDB_USER: admin
-          COUCHDB_PASSWORD: cloudhgh
+        env:
+        - name: COUCHDB_USER
+          value: "admin"
+        - name: COUCHDB_PASSWORD
+          value: "cloudhgh"
         image: bitnami/couchdb:latest   # this is the image name on hub.docker or if you have one locally. We use an older
                           # and then show how we can upgrade to newer version
         imagePullPolicy: Always                  
