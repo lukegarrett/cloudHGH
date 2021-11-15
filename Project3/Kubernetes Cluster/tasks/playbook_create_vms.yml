@@ -28,7 +28,8 @@
         security_groups:
                 - ENABLE_KAFKA_COUCHDB
                 - ENABLE_K8S
-        timeout: 200
+                - ENABLE_SSH
+        timeout: 500
         floating_ips:
           - "{{floating_ip_01}}"
 
@@ -44,7 +45,8 @@
         security_groups:
                 - ENABLE_KAFKA_COUCHDB
                 - ENABLE_K8S
-        timeout: 200
+                - ENABLE_SSH
+        timeout: 500
         floating_ips:
           - "{{floating_ip_02}}"
 ...
