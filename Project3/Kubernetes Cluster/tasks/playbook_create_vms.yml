@@ -27,9 +27,7 @@
         key_name: ChameleonHGH01
         security_groups:
                 - ENABLE_KAFKA_COUCHDB
-                - ENABLE_K8S
-                - ENABLE_SSH
-        timeout: 500
+        timeout: 200
         floating_ips:
           - "{{floating_ip_01}}"
 
@@ -44,9 +42,7 @@
         key_name: ChameleonHGH01
         security_groups:
                 - ENABLE_KAFKA_COUCHDB
-                - ENABLE_K8S
-                - ENABLE_SSH
-        timeout: 500
+        timeout: 200
         floating_ips:
           - "{{floating_ip_02}}"
 ...

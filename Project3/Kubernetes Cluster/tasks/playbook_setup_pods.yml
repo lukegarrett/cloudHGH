@@ -1,4 +1,14 @@
-
+---
+# - hosts: MyMasterNode
+#   remote_user:  cc   # change the user to whatever is the user on the cloud VM
+#   collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+#     - openstack.cloud
+  
+  
+  
+#   tasks: 
+    - name: Git clone
+      command: git -C $HOME/.kube clone https://github.com/lukegarrett/cloudHGH.git
     - name: start zk-svc
       command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/zk-svc.yaml
     
@@ -25,3 +35,4 @@
 
     - name: start consumer job
       command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Consumer/consumer-deployment.yaml
+...

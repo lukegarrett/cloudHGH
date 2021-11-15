@@ -1,4 +1,11 @@
+---
+# - hosts: MyWorkerNodes
+#   remote_user:  cc   # change the user to whatever is the user on the cloud VM
+#   collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+#     - openstack.cloud
 
+  
+#   tasks: 
   - name: changing cloud.cfg
     become: yes
     replace:
@@ -17,15 +24,15 @@
 
   - name: Disable swap
     command: swapoff -a
+  - name: Enable UFW TCP on 2379-2380S
 
-  - name: Enable UFW TCP on 2379-2380
     shell: "sudo ufw allow proto tcp from any to any port 2379:2380"
 
   - name: Enable UFW TCP on 4040
     shell: "sudo ufw allow proto tcp from any to any port 4040"
 
-  - name: Enable UFW TCP on 5984
-    shell: "sudo ufw allow proto tcp from any to any port 5984"
+  - name: Enable UFW TCP on 5000
+    shell: "sudo ufw allow proto tcp from any to any port 5000"
       
   - name: Enable UFW TCP on 6443
     shell: "sudo ufw allow proto tcp from any to any port 6443"
@@ -38,28 +45,19 @@
       
   - name: Enable UFW TCP on 8080:8081
     shell: "sudo ufw allow proto tcp from any to any port 8080:8081"
-
-  - name: Enable UFW TCP on 9092
-    shell: "sudo ufw allow proto tcp from any to any port 9092"
+  - name: Enable UFW TCP on 10250
+    shell: "sudo ufw allow proto tcp from any to any port 10250"
       
   - name: Enable UFW TCP on 10251
     shell: "sudo ufw allow proto tcp from any to any port 10251"
 
-  - name: Enable UFW TCP on 10251
-    shell: "sudo ufw allow proto tcp from any to any port 10257"
-
-  - name: Enable UFW TCP on 10251
-    shell: "sudo ufw allow proto tcp from any to any port 10259"
-
   - name: Enable UFW TCP on 10252
-    shell: "sudo ufw allow proto tcp from any to any port 10252"
-
+    shell: "sudo ufw allow proto tcp from any to any port 10252"  
   - name: Enable UFW TCP on 300000:30010
     shell: "sudo ufw allow proto tcp from any to any port 30000:30010"
 
   - name: Enable UFW TCP on 8285
     shell: "sudo ufw allow proto udp from any to any port 8285"
-
   - name: Enable UFW TCP on 8472
     shell: "sudo ufw allow proto udp from any to any port 8472"
 
@@ -78,7 +76,6 @@
 
   - name: Join the node to cluster
     become: yes
-    command: sh /tmp/join-command.sh  
-
-  
+    command: sh /tmp/join-command.sh
+...
   
