@@ -18,34 +18,34 @@
 #####################################################
 
 
- - name: "Play 1: Instantiate VMs"
-   hosts: MyLocalVMs
-   remote_user:  vagrant
+#  - name: "Play 1: Instantiate VMs"
+#    hosts: MyLocalVMs
+#    remote_user:  vagrant
+#    gather_facts: yes
+#    tasks:
+#    - include_tasks: playbook_create_vms.yml
+
+ - name: "Play 2: Install Docker and Kubernetes"
+   hosts: MyChameleonVMs
+   remote_user:  cc
+   become: yes
    gather_facts: yes
    tasks:
-   - include_tasks: playbook_create_vms.yml
+   - include_tasks: playbook_install_docker_kube.yml
 
-#  - name: "Play 2: Install Docker and Kubernetes"
-#    hosts: MyChameleonVMs
-#    remote_user:  cc
-#    become: yes
-#    gather_facts: yes
-#    tasks:
-#    - include_tasks: playbook_install_docker_kube.yml
+ - name: "Play 3: Configure Kubernetes Master Node"
+   hosts: MyMasterNode
+   remote_user:  cc
+   gather_facts: yes
+   tasks:
+   - include_tasks: playbook_master_node1.yml
 
-#  - name: "Play 3: Configure Kubernetes Master Node"
-#    hosts: MyMasterNode
-#    remote_user:  cc
-#    gather_facts: yes
-#    tasks:
-#    - include_tasks: playbook_master_node1.yml
-
-#  - name: "Play 4: Configure Kubernetes Worker Node"
-#    hosts: MyWorkerNodes
-#    remote_user:  cc
-#    gather_facts: yes
-#    tasks:
-#    - include_tasks: playbook_worker_node.yml
+ - name: "Play 4: Configure Kubernetes Worker Node"
+   hosts: MyWorkerNodes
+   remote_user:  cc
+   gather_facts: yes
+   tasks:
+   - include_tasks: playbook_worker_node.yml
 
 #  - name: "Play 5: Setup Kubernetes Pods"
 #    hosts: MyMasterNode
