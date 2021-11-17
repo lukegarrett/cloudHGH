@@ -1,0 +1,53 @@
+---
+#
+# Author: Camren Hall, Luke Garrett, Safet Hoxha
+# EECS 4287/5287: Principles of Cloud Computing
+# Created: Fall 2021
+#
+# In this playbook we instantiate our Chameleon Cloud Virtual Machines
+#
+
+  - name: Install Ansible module openstack.cloud
+    ansible.builtin.command: ansible-galaxy collection install openstack.cloud
+
+  - name: Install Python3
+    ansible.builtin.command: sudo apt-get install python3
+
+  - name: Install openstacksdk module
+    ansible.builtin.command: python3 -m pip install openstacksdk
+
+  - name: Initialize VM01
+    openstack.cloud.server:
+        state: present
+        cloud: openstack
+        name: teamhgh_ansible_chameleon_007
+        image: CC-Ubuntu20.04
+        flavor: m1.medium
+        network: CH-819381-net
+        key_name: ChameleonHGH01
+        security_groups:
+                - ENABLE_KAFKA_COUCHDB
+                - ENABLE_K8S
+                - ENABLE_SSH
+        timeout: 500
+        floating_ips:
+          - "{{floating_ip_01}}"
+
+  - name: Initialize VM02
+    openstack.cloud.server:
+        state: present
+        cloud: openstack
+        name: teamhgh_ansible_chameleon_008
+        image: CC-Ubuntu20.04
+        flavor: m1.medium
+        network: CH-819381-net
+        key_name: ChameleonHGH01
+        security_groups:
+                - ENABLE_KAFKA_COUCHDB
+                - ENABLE_K8S
+                - ENABLE_SSH
+        timeout: 500
+        floating_ips:
+          - "{{floating_ip_02}}"
+...
+

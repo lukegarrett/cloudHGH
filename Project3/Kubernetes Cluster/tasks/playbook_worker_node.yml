@@ -70,12 +70,12 @@
   - name: reload ufw
     shell: "sudo ufw reload"    
 
-  # - name: Copy the join command to server location
-  #   become: yes
-  #   copy: src=join-command dest=/tmp/join-command.sh mode=0777
+  - name: Copy the join command to server location
+    become: yes
+    copy: src=join-command dest=/tmp/join-command.sh mode=0777
 
-  # - name: Join the node to cluster
-  #   become: yes
-  #   command: sh /tmp/join-command.sh
+  - name: Join the node to cluster
+    become: yes
+    command: sh /tmp/join-command.sh
 ...
   

@@ -1,0 +1,38 @@
+---
+# - hosts: MyMasterNode
+#   remote_user:  cc   # change the user to whatever is the user on the cloud VM
+#   collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+#     - openstack.cloud
+  
+  
+  
+#   tasks: 
+    - name: Git clone
+      command: git -C $HOME/.kube clone https://github.com/lukegarrett/cloudHGH.git
+    - name: start zk-svc
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/zk-svc.yaml
+    
+    - name: start zk-deployment
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/zookeeper-deployment.yaml
+
+    - name: start master service
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/kb-master-svc.yaml  
+
+    - name: start master deployment
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/kb-master-deployment.yaml
+
+    - name: start worker service
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Worker/kb-worker-svc.yaml
+
+    - name: start worker deployment
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Worker/kb-worker-deployment.yaml
+    
+    - name: couch-service
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/CouchDB/couch-svc.yaml
+
+    - name: couch-deploy
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/CouchDB/couch-deployment.yaml
+
+    - name: start consumer job
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Consumer/consumer-deployment.yaml
+...

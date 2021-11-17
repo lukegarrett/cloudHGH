@@ -1,0 +1,34 @@
+# Set Chameleon Cloud IPs
+VM_IP_01 = "129.114.24.229"
+VM_IP_02 = "129.114.27.39"
+
+Vagrant.configure("2") do |config|
+
+    config.vm.box = "ubuntu/focal64"
+
+    config.ssh.insert_key = false
+
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+        v.cpus = 2
+    end
+
+    config.vm.provision "shell", path: "bootstrap.sh"
+    config.vm.provision "file", source: "./ChameleonHGH01.pem", destination:  "~/.ssh/"
+    config.vm.provision "file", source: "./.ansible.cfg", destination: "~/.ansible.cfg"
+    config.vm.provision "file", source: "./MyInventory", destination: "~/.ansible/MyInventory"
+    config.vm.provision "file", source: "./clouds.yaml", destination: "~/.config/openstack/clouds.yaml"
+    config.vm.provision "shell", inline: "chmod go-rwx ~/.ssh/ChameleonHGH01.pem", privileged: false
+
+    config.vm.provision "ansible_local" do |ansible|
+        ansible.playbook = "tasks/playbook_master.yml"
+        ansible.verbose = true
+        ansible.install = true  # installs ansible (and hence python on VM)
+        ansible.limit = "all"
+        ansible.inventory_path = "MyInventory"  # inventory file
+        ansible.extra_vars = {
+                floating_ip_01: VM_IP_01,
+                floating_ip_02: VM_IP_02
+            }
+      end
+end

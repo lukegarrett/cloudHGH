@@ -47,12 +47,12 @@
    tasks:
    - include_tasks: playbook_worker_node.yml
 
-#  - name: "Play 5: Setup Kubernetes Pods"
-#    hosts: MyMasterNode
-#    remote_user:  cc
-#    gather_facts: yes
-#    tasks:
-#    - include_tasks: playbook_setup_pods.yml
+ - name: "Play 5: Setup Kubernetes Pods"
+   hosts: MyMasterNode
+   remote_user:  cc
+   gather_facts: yes
+   tasks:
+   - include_tasks: playbook_setup_pods.yml
 
 
 

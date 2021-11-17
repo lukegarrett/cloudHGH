@@ -70,40 +70,39 @@
   - name: reload ufw
     shell: "sudo ufw reload"    
 
-  # - name: Initialize the Kubernetes cluster using kubeadm
-  #   become: yes
-  #   command: kubeadm init --node-name kubemaster --pod-network-cidr=10.244.0.0/16
-  #   register: output
+  - name: Initialize the Kubernetes cluster using kubeadm
+    become: yes
+    command: kubeadm init --node-name kubemaster --pod-network-cidr=10.244.0.0/16
+    register: output
 
-  # - name: display output   
-  #   debug: 
-  #     var: output.stdout_lines
+  - name: display output   
+    debug: 
+      var: output.stdout_lines
 
-  # - name: mkdir
-  #   shell: mkdir -p $HOME/.kube
-  # - name: copy
-  #   shell: sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
-  # - name: chown
-  #   shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config  
-  # - name: print ls  
-  #   shell: ls -l $HOME/.kube
-  #   register: output
-  # - name: display output   
-  #   debug: 
-  #     var: output.stdout_lines  
+  - name: mkdir
+    shell: mkdir -p $HOME/.kube
+  - name: copy
+    shell: sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+  - name: chown
+    shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config  
+  - name: print ls  
+    shell: ls -l $HOME/.kube
+    register: output
+  - name: display output   
+    debug: 
+      var: output.stdout_lines  
 
-  # - name: Setup the container networking provider and the network policy engine
-  #   command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  - name: Setup the container networking provider and the network policy engine
+    command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-  # - name: Taint Master Node
-  #   shell: "kubectl taint nodes kubemaster node-role.kubernetes.io/master:NoSchedule-"  
+  - name: Taint Master Node
+    shell: "kubectl taint nodes kubemaster node-role.kubernetes.io/master:NoSchedule-"  
 
-  # - name: Generate join command
-  #   command: kubeadm token create --print-join-command
-  #   register: join_command
+  - name: Generate join command
+    command: kubeadm token create --print-join-command
+    register: join_command
     
-
-  # - name: Copy join command to local file
-  #   local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+  - name: Copy join command to local file
+    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
 
 ...
