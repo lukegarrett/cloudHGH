@@ -47,7 +47,7 @@ if __name__ == "__main__":
     for (word, count) in output:
         dict = {word : count}
         json_dict = json.dumps(dict)
-        producer.send('mapreduce', json_dict)
+        producer.send('hghdata', json_dict)
         print("%s: %i" % (word, count))
 
     producer.close()
