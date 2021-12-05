@@ -45,6 +45,7 @@
       
   - name: Enable UFW TCP on 8080:8081
     shell: "sudo ufw allow proto tcp from any to any port 8080:8081"
+    
   - name: Enable UFW TCP on 10250
     shell: "sudo ufw allow proto tcp from any to any port 10250"
       

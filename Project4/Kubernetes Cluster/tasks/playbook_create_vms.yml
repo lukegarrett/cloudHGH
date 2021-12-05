@@ -22,12 +22,13 @@
         cloud: openstack
         name: teamhgh_ansible_chameleon_007
         image: CC-Ubuntu20.04
-        flavor: m1.medium
+        flavor: m1.large
         network: CH-819381-net
         key_name: ChameleonHGH01
         security_groups:
                 - ENABLE_KAFKA_COUCHDB
                 - ENABLE_K8S
+                - ENABLE_SPARK
                 - ENABLE_SSH
         timeout: 500
         floating_ips:
@@ -39,12 +40,13 @@
         cloud: openstack
         name: teamhgh_ansible_chameleon_008
         image: CC-Ubuntu20.04
-        flavor: m1.medium
+        flavor: m1.large
         network: CH-819381-net
         key_name: ChameleonHGH01
         security_groups:
                 - ENABLE_KAFKA_COUCHDB
                 - ENABLE_K8S
+                - ENABLE_SPARK
                 - ENABLE_SSH
         timeout: 500
         floating_ips:

@@ -24,8 +24,8 @@
 
   - name: Disable swap
     command: swapoff -a
-  - name: Enable UFW TCP on 2379-2380S
 
+  - name: Enable UFW TCP on 2379-2380S
     shell: "sudo ufw allow proto tcp from any to any port 2379:2380"
 
   - name: Enable UFW TCP on 4040
@@ -45,6 +45,7 @@
       
   - name: Enable UFW TCP on 8080:8081
     shell: "sudo ufw allow proto tcp from any to any port 8080:8081"
+
   - name: Enable UFW TCP on 10250
     shell: "sudo ufw allow proto tcp from any to any port 10250"
       
@@ -58,6 +59,7 @@
 
   - name: Enable UFW TCP on 8285
     shell: "sudo ufw allow proto udp from any to any port 8285"
+
   - name: Enable UFW TCP on 8472
     shell: "sudo ufw allow proto udp from any to any port 8472"
 
