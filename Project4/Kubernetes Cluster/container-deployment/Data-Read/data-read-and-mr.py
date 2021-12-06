@@ -17,13 +17,11 @@
 
 ### THIS RUNS INSIDE A KUBERNETES POD AND NEEDS TO BE COPIED INTO THE POD
 
-import sys
 import json
 from operator import add
 from kafka import KafkaProducer
 from pyspark.sql import SparkSession
 import couchdb
-
 
 
 producer = KafkaProducer (bootstrap_servers="129.114.24.229:30000", value_serializer=lambda v: json.dumps(v).encode('ascii'))
@@ -36,6 +34,8 @@ if __name__ == "__main__":
         .builder\
         .appName("PythonWordCount")\
         .getOrCreate()
+    
+    sc = spark.sparkContext
 
     
     # acquire couchdb server
@@ -53,9 +53,13 @@ if __name__ == "__main__":
         db = couch.create(dbname)
 
     for docid in db.view('_all_docs'):
-        # print(db[docid['id']])
-        lines = spark.read.text(db[docid['id']]).rdd.map(lambda r: r[0])
-        counts = lines.flatMap(lambda x: x.split(' ')) \
+
+        data = str(db[docid['id']]['text'])
+        print(data)
+        rdd = sc.parallelize([data])
+        print(rdd.collect())
+        # lines = dataframe.rdd.map(lambda r: r[0])
+        counts = rdd.flatMap(lambda x: x.split(' ')) \
                     .map(lambda x: (x, 1)) \
                     .reduceByKey(add)
         output = counts.collect()
