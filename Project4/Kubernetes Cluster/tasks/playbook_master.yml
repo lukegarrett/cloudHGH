@@ -18,12 +18,12 @@
 #####################################################
 
 
- - name: "Play 1: Instantiate VMs"
-   hosts: MyLocalVMs
-   remote_user:  vagrant
-   gather_facts: yes
-   tasks:
-   - include_tasks: playbook_create_vms.yml
+#  - name: "Play 1: Instantiate VMs"
+#    hosts: MyLocalVMs
+#    remote_user:  vagrant
+#    gather_facts: yes
+#    tasks:
+#    - include_tasks: playbook_create_vms.yml
 
  - name: "Play 2: Install Docker and Kubernetes"
    hosts: MyChameleonVMs

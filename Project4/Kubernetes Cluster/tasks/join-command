@@ -1,1 +1,1 @@
-kubeadm join 10.212.96.70:6443 --token 3kj4it.0znincuc1slfq41b --discovery-token-ca-cert-hash sha256:0a5349fa8a2d22bb0b81db046e30732601413086011780deba05cad1d31f1012 
+kubeadm join 10.212.96.167:6443 --token arrqmm.40z42jtbpg7vf49i --discovery-token-ca-cert-hash sha256:ec031a1315bc155a2c0d353f164afaf1b41eafe9f005d45ae45bae430cf7b826 
