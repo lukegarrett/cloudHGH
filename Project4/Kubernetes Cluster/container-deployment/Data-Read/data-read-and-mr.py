@@ -24,7 +24,6 @@ from pyspark.sql import SparkSession
 import couchdb
 
 
-
 producer = KafkaProducer (bootstrap_servers="129.114.24.229:30000", value_serializer=lambda v: json.dumps(v).encode('ascii'))
 producer.config
 
@@ -36,7 +35,11 @@ if __name__ == "__main__":
         .appName("PythonWordCount")\
         .getOrCreate()
     
+<<<<<<< HEAD
     sparkContext = spark.sparkContext
+=======
+    sc = spark.sparkContext
+>>>>>>> a60923e63ed73cd83857bad05c3a77bcd734cd16
 
     
     # acquire couchdb server
@@ -56,9 +59,17 @@ if __name__ == "__main__":
     for docid in db.view('_all_docs'):
 
         data = str(db[docid['id']]['text'])
+<<<<<<< HEAD
         dataframe = 
         lines = spark.read.text('alice_in_wonderland.txt').rdd.map(lambda r: r[0])
         counts = lines.flatMap(lambda x: x.split(' ')) \
+=======
+        print(data)
+        rdd = sc.parallelize([data])
+        print(rdd.collect())
+        # lines = dataframe.rdd.map(lambda r: r[0])
+        counts = rdd.flatMap(lambda x: x.split(' ')) \
+>>>>>>> a60923e63ed73cd83857bad05c3a77bcd734cd16
                     .map(lambda x: (x, 1)) \
                     .reduceByKey(add)
         output = counts.collect()
