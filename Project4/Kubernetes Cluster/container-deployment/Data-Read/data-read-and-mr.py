@@ -1,22 +1,3 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-### THIS RUNS INSIDE A KUBERNETES POD AND NEEDS TO BE COPIED INTO THE POD
-
 import json
 from operator import add
 from kafka import KafkaProducer
@@ -34,14 +15,10 @@ if __name__ == "__main__":
         .builder\
         .appName("PythonWordCount")\
         .getOrCreate()
-    
-<<<<<<< HEAD
-    sparkContext = spark.sparkContext
-=======
-    sc = spark.sparkContext
->>>>>>> a60923e63ed73cd83857bad05c3a77bcd734cd16
 
-    
+    sc = spark.sparkContext
+
+
     # acquire couchdb server
     ip_couchdb = "129.114.27.39"
     user = "admin"
@@ -59,17 +36,10 @@ if __name__ == "__main__":
     for docid in db.view('_all_docs'):
 
         data = str(db[docid['id']]['text'])
-<<<<<<< HEAD
-        dataframe = 
-        lines = spark.read.text('alice_in_wonderland.txt').rdd.map(lambda r: r[0])
-        counts = lines.flatMap(lambda x: x.split(' ')) \
-=======
         print(data)
         rdd = sc.parallelize([data])
         print(rdd.collect())
-        # lines = dataframe.rdd.map(lambda r: r[0])
         counts = rdd.flatMap(lambda x: x.split(' ')) \
->>>>>>> a60923e63ed73cd83857bad05c3a77bcd734cd16
                     .map(lambda x: (x, 1)) \
                     .reduceByKey(add)
         output = counts.collect()
@@ -81,5 +51,4 @@ if __name__ == "__main__":
 
     producer.close()
     spark.stop()
-    
 
