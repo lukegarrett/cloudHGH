@@ -17,7 +17,6 @@
 
 ### THIS RUNS INSIDE A KUBERNETES POD AND NEEDS TO BE COPIED INTO THE POD
 
-import sys
 import json
 from operator import add
 from kafka import KafkaProducer
@@ -36,6 +35,8 @@ if __name__ == "__main__":
         .builder\
         .appName("PythonWordCount")\
         .getOrCreate()
+    
+    sparkContext = spark.sparkContext
 
     
     # acquire couchdb server
@@ -53,8 +54,10 @@ if __name__ == "__main__":
         db = couch.create(dbname)
 
     for docid in db.view('_all_docs'):
-        # print(db[docid['id']])
-        lines = spark.read.text(db[docid['id']]).rdd.map(lambda r: r[0])
+
+        data = str(db[docid['id']]['text'])
+        dataframe = 
+        lines = spark.read.text('alice_in_wonderland.txt').rdd.map(lambda r: r[0])
         counts = lines.flatMap(lambda x: x.split(' ')) \
                     .map(lambda x: (x, 1)) \
                     .reduceByKey(add)

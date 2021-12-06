@@ -25,14 +25,14 @@ if dbname in couch:
 else:
     db = couch.create(dbname)
 
-document = open('alice_in_wonderland.txt','r')
+document = open('starwars.txt','r')
 
-doc_id, doc_rev = db.save({'name': 'Alice in Wonderland', 'text': document.read()})
+doc_id, doc_rev = db.save({'name': 'Demo', 'text': document.read()})
 
 document.close()
 
 for docid in db.view('_all_docs'):
-    print(db[docid['id']])
+    print(str(db[docid['id']]['text']))
     
 
 
