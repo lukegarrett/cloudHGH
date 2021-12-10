@@ -1,0 +1,1 @@
+kubeadm join 10.212.96.167:6443 --token arrqmm.40z42jtbpg7vf49i --discovery-token-ca-cert-hash sha256:ec031a1315bc155a2c0d353f164afaf1b41eafe9f005d45ae45bae430cf7b826 

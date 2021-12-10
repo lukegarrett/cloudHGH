@@ -1,0 +1,81 @@
+---
+# - hosts: MyWorkerNodes
+#   remote_user:  cc   # change the user to whatever is the user on the cloud VM
+#   collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+#     - openstack.cloud
+
+  
+#   tasks: 
+  - name: changing cloud.cfg
+    become: yes
+    replace:
+      path: /etc/cloud/cloud.cfg
+      regexp: 'manage_etc_hosts: true'
+      replace: 'manage_etc_hosts: false'
+  
+  
+  - name: Add Entry to Hosts File (MASTER)
+    become: yes
+    become_user: root
+    replace:
+      path: /etc/hosts
+      regexp: '127.0.0.1 localhost'
+      replace: '127.0.0.1 localhost\n{{ play_hosts[0] }} kubeworker2'
+
+  - name: Disable swap
+    command: swapoff -a
+  - name: Enable UFW TCP on 2379-2380S
+
+    shell: "sudo ufw allow proto tcp from any to any port 2379:2380"
+
+  - name: Enable UFW TCP on 4040
+    shell: "sudo ufw allow proto tcp from any to any port 4040"
+
+  - name: Enable UFW TCP on 5000
+    shell: "sudo ufw allow proto tcp from any to any port 5000"
+      
+  - name: Enable UFW TCP on 6443
+    shell: "sudo ufw allow proto tcp from any to any port 6443"
+      
+  - name: Enable UFW TCP on 7076:7079
+    shell: "sudo ufw allow proto tcp from any to any port 7076:7079"
+      
+  - name: Enable UFW TCP on 8001
+    shell: "sudo ufw allow proto tcp from any to any port 8001"
+      
+  - name: Enable UFW TCP on 8080:8081
+    shell: "sudo ufw allow proto tcp from any to any port 8080:8081"
+  - name: Enable UFW TCP on 10250
+    shell: "sudo ufw allow proto tcp from any to any port 10250"
+      
+  - name: Enable UFW TCP on 10251
+    shell: "sudo ufw allow proto tcp from any to any port 10251"
+
+  - name: Enable UFW TCP on 10252
+    shell: "sudo ufw allow proto tcp from any to any port 10252"  
+  - name: Enable UFW TCP on 300000:30010
+    shell: "sudo ufw allow proto tcp from any to any port 30000:30010"
+
+  - name: Enable UFW TCP on 8285
+    shell: "sudo ufw allow proto udp from any to any port 8285"
+  - name: Enable UFW TCP on 8472
+    shell: "sudo ufw allow proto udp from any to any port 8472"
+
+  - name: changing cloud.cfg
+    become: yes
+    replace:
+      path: /etc/default/ufw
+      regexp: 'IPV6=yes'
+      replace: 'IPV6=no'
+  - name: reload ufw
+    shell: "sudo ufw reload"    
+
+  - name: Copy the join command to server location
+    become: yes
+    copy: src=join-command dest=/tmp/join-command.sh mode=0777
+
+  - name: Join the node to cluster
+    become: yes
+    command: sh /tmp/join-command.sh
+...
+  
