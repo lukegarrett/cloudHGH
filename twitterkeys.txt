@@ -1,0 +1,14 @@
+API Key
+	3LU4zguNJE0Np3yurvApaDsLd
+API Key Secret
+	kUgzPdEO42Bo0yxqvTw26s9yUC4i8zfNpd69IzbhuhZULtjKel
+Bearer Token
+	AAAAAAAAAAAAAAAAAAAAAMquWwEAAAAArG%2BMVN%2BizU8VfbZHFxl7KFxgWIo%3D0wmW4dzYlxcbUJnDBYk2DN09Xfj8xWM41LHqasRvGtPs3LRQTM
+Acesss Token
+	1379746468731490305-LathxvvQvNvNGcH5iYFbLoU3hweDT5
+Access Token Secret
+	7Q2iyqDR8Bei8x3QSiv4J6GsJag5MGBGaTr1QZCSyYuTw
+
+
+
+curl -X GET -H "Authorization: Bearer AAAAAAAAAAAAAAAAAAAAAE2iWwEAAAAAVonhcOHqwTw2raw5zxyFgfQ30pk%3DGLmHwDtmdMZQEW0HdbNmFfhxcDkl6vIRmc6s2IxiKDM9K8Tli2" "https://api.twitter.com/2/tweets/20"

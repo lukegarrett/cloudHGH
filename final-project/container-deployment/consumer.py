@@ -19,7 +19,9 @@ consumer.subscribe (topics=["tweetdata"])
 
 # we keep reading and printing
 for msg in enumerate(consumer):
-    print (msg)
+    output = json.dumps(msg)
+    myjson = json.loads(output)
+    print(myjson[1])
 
 consumer.close ()
     
