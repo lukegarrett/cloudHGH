@@ -9,10 +9,17 @@ spec:                     # This is the specification where we can even put the 
   template:               # Specified info needed to run the pod and what runs in the pod
     metadata:
       labels:
+<<<<<<< HEAD
         app: mr-job        # some label to give to this pod (see the matching label above)
     spec:                 # actual specification
       containers:
       - name: mr-job       # this is going to be used for DNS name
+=======
+        app: mr        # some label to give to this pod (see the matching label above)
+    spec:                 # actual specification
+      containers:
+      - name: mr       # this is going to be used for DNS name
+>>>>>>> e30c73698342864c11ff432c42c8315a926ae496
         # Change the IP address to where you are running this
         image: camrenhall/cloudhgh:sparkmr-image   # this is the image in registry accessible
                                              # from all our workers
