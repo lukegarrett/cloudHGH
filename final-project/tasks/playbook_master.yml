@@ -1,0 +1,53 @@
+---
+#
+# EECS 4287/5287: Principles of Cloud Computing
+# Author: Aniruddha Gokhale
+# Created: Fall 2017
+# Modified: Fall 2020
+#
+# This playbook is our demo master file
+# The goal is to show how to have a single master file which then
+# includes multiple plays according to some well-designed choreography
+#
+# This file is similar to the one in the AnsibleOnly_Local_and_Cloud folder
+# For now I just kept one play in here but feel free to add more.
+#####################################################
+### Play 1: Get facts from all our VMs
+#
+# Here I show the use of import_tasks from child playbooks
+#####################################################
+
+
+ - name: "Play 1: Instantiate VMs"
+   hosts: MyLocalVMs
+   remote_user:  vagrant
+   gather_facts: yes
+   tasks:
+   - include_tasks: playbook_create_vms.yml
+
+#  - name: "Play 2: Install Packages"
+#    hosts: MyChameleonVMs
+#    remote_user:  cc
+#    become: yes
+#    gather_facts: yes
+#    tasks:
+#    - include_tasks: playbook_packages_install.yml
+
+#  - name: "Play 3: Modify Kafka Listeners to be Outward-Facing"
+#    hosts: MyChameleonVMs
+#    remote_user:  cc
+#    gather_facts: yes
+#    tasks:
+#    - include_tasks: playbook_modify_listeners.yml
+
+#  - name: "Play 4: Initialize Zookeeper and Kafka"
+#    hosts: MyChameleonVMs
+#    remote_user:  cc
+#    gather_facts: yes
+#    tasks:
+#    - include_tasks: playbook_initialize_services.yml
+
+
+
+
+...
