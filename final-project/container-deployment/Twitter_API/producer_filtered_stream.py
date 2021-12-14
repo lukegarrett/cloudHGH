@@ -4,7 +4,7 @@ import json
 from kafka import KafkaProducer
 
 bearer_token = "AAAAAAAAAAAAAAAAAAAAAMquWwEAAAAArG%2BMVN%2BizU8VfbZHFxl7KFxgWIo%3D0wmW4dzYlxcbUJnDBYk2DN09Xfj8xWM41LHqasRvGtPs3LRQTM"
-producer = KafkaProducer (bootstrap_servers="129.114.27.196:9092", value_serializer=lambda v: json.dumps(v).encode('ascii'))
+producer = KafkaProducer (bootstrap_servers="129.114.27.196:9092", value_serializer=lambda v: json.dumps(v).encode('utf-8'))
 
 def bearer_oauth(r):
     """
