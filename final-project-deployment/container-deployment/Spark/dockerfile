@@ -20,7 +20,7 @@ RUN pip install CouchDB
 
 # Note, I have added several other packages that provide networking utilities like
 # ping, nslookup, ifconfig etc.
-RUN apt-get -y update && apt-get install -y net-tools wget dnsutils iputils-ping iputils-tracepath iputils-arping iputils-clockdiff
+RUN apt-get -y install wget
 
 RUN wget https://dlcdn.apache.org/spark/spark-3.2.0/spark-3.2.0-bin-hadoop3.2-scala2.13.tgz
 RUN zcat spark-3.2.0-bin-hadoop3.2-scala2.13.tgz | tar xpof -
