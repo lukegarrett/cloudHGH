@@ -25,6 +25,3 @@ def getUserID(username):
     }
     response = requests.request("GET", url, headers=headers, data=payload)
     return response.json()["data"]["id"]
-
-# username="C77228036"
-# print(getWhoThisUserFollows(getUserID(username)))

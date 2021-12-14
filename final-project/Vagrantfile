@@ -1,5 +1,5 @@
 # Set Chameleon Cloud IPs
-VM_IP_01 = "129.114.24.229"
+VM_IP_01 = "129.114.25.83"
 
 Vagrant.configure("2") do |config|
 

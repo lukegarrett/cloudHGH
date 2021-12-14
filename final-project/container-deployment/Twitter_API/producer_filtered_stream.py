@@ -4,7 +4,7 @@ import json
 from kafka import KafkaProducer
 
 bearer_token = "AAAAAAAAAAAAAAAAAAAAAMquWwEAAAAArG%2BMVN%2BizU8VfbZHFxl7KFxgWIo%3D0wmW4dzYlxcbUJnDBYk2DN09Xfj8xWM41LHqasRvGtPs3LRQTM"
-producer = KafkaProducer (bootstrap_servers="129.114.27.196:9092", value_serializer=lambda v: v.encode('utf-8'))
+producer = KafkaProducer (bootstrap_servers="129.114.25.83:30000", value_serializer=lambda v: v.encode('utf-8'))
 
 def bearer_oauth(r):
     """
@@ -45,7 +45,6 @@ def delete_all_rules(rules):
                 response.status_code, response.text
             )
         )
-    print(json.dumps(response.json()))
 
 
 def set_rules(delete):
@@ -53,7 +52,6 @@ def set_rules(delete):
     sample_rules = []
     for rule in search_converter.convertToRule():
         sample_rules.append({"value": rule, "tag": "in followers"})
-    # sample_rules.append({"value": "stock OR stocks OR money OR investing OR invest OR ira OR options OR option OR economy OR business OR businesses", "tag": "sample words"})
     sample_rules.append({"value": "stock OR stocks", "tag": "sample words"})
 
     payload = {"add": sample_rules}
@@ -66,7 +64,6 @@ def set_rules(delete):
         raise Exception(
             "Cannot add rules (HTTP {}): {}".format(response.status_code, response.text)
         )
-    print(json.dumps(response.json()))
 
 
 def get_stream(set):
@@ -89,13 +86,7 @@ def get_stream(set):
             json_dict = json.dumps(dict)
             producer.send('tweetdata', textonly)
             print(json_dict)
-            producer.flush ()   # try to empty the sending buffer
-
-
-            # data = json.dumps(json_response, indent=4, sort_keys=True)
-            # print(data)
-            # producer.send('tweetdata', json_response)
-            # producer.flush()
+            producer.flush ()
 
 
 
