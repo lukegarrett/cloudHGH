@@ -1,51 +1,35 @@
 ---
 #
 # EECS 4287/5287: Principles of Cloud Computing
-# Author: Aniruddha Gokhale
-# Created: Fall 2017
-# Modified: Fall 2020
+# Author: Luke Garrett, Camren Hall, Safet Hoxha
 #
-# This playbook is our demo master file
-# The goal is to show how to have a single master file which then
-# includes multiple plays according to some well-designed choreography
-#
-# This file is similar to the one in the AnsibleOnly_Local_and_Cloud folder
-# For now I just kept one play in here but feel free to add more.
-#####################################################
-### Play 1: Get facts from all our VMs
-#
-# Here I show the use of import_tasks from child playbooks
-#####################################################
+ # - name: "Play 1: Instantiate VMs"
+ #   hosts: MyLocalVMs
+ #   remote_user:  ubuntu 
+ #   gather_facts: yes 
+ #   tasks:
+ #   - include_tasks: playbook_create_vms.yml
 
+ # - name: "Play 2: Create Kubernetes Cluster w/ Master"
+ #   hosts: MyChameleonVMs
+ #   remote_user:  cc
+ #   gather_facts: yes
+ #   tasks:
+ #   - include_tasks: playbook_install_docker_kube.yml
 
-#  - name: "Play 1: Instantiate VMs"
-#    hosts: MyLocalVMs
-#    remote_user:  vagrant
-#    gather_facts: yes
-#    tasks:
-#    - include_tasks: playbook_create_vms.yml
-
- - name: "Play 2: Install Docker and Kubernetes"
-   hosts: MyChameleonVMs
-   remote_user:  cc
-   become: yes
-   gather_facts: yes
-   tasks:
-   - include_tasks: playbook_install_docker_kube.yml
-
- - name: "Play 3: Configure Kubernetes Master Node"
-   hosts: MyMasterNode
-   remote_user:  cc
-   gather_facts: yes
-   tasks:
-   - include_tasks: playbook_master_node1.yml
-
- - name: "Play 4: Configure Kubernetes Worker Node"
-   hosts: MyWorkerNodes
-   remote_user:  cc
-   gather_facts: yes
-   tasks:
-   - include_tasks: playbook_worker_node.yml
+ # - name: "Play 3: Setup Kubernetes Master Node"
+ #   hosts: MyMasterNode
+ #   remote_user:  cc
+ #   gather_facts: yes
+ #   tasks:
+ #   - include_tasks: playbook_kubernetes_master.yml
+   
+ # - name: "Play 4: Setup Kubernetes Worker Node"
+ #   hosts: MyWorkerNodes
+ #   remote_user:  cc
+ #   gather_facts: yes
+ #   tasks:
+ #   - include_tasks: playbook_kubernetes_worker.yml
 
  - name: "Play 5: Setup Kubernetes Pods"
    hosts: MyMasterNode
@@ -53,8 +37,5 @@
    gather_facts: yes
    tasks:
    - include_tasks: playbook_setup_pods.yml
-
-
-
 
 ...

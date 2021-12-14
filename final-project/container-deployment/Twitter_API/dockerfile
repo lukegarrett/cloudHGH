@@ -1,5 +1,6 @@
 # Author: Aniruddha Gokhale
 # Vanderbilt University
+<<<<<<< HEAD
 # Created May 2017,
 # Modified Nov 2017
 # Modified Oct 2018
@@ -24,3 +25,42 @@ COPY *.py /
 #
 # Run a command shell (for Swarm and Kubernetes, we comment this out)
 #CMD /bin/bash
+=======
+# Created: Spring 2021
+#
+# For Cloud Computing class, Assignment #4
+# Here we create an image for Apache Spark so we can run
+# both the master and workers
+#
+# Use Ubuntu (latest, e.g. 20.04)
+FROM ubuntu:latest
+#
+# Now install the needed packages.
+RUN apt-get -y update && apt-get install -y default-jdk python3
+RUN apt-get install -y python3-dev python3-pip
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pyspark
+RUN apt-get -y update && apt-get install -y net-tools python3 gcc
+
+RUN pip install kafka-python
+RUN pip install CouchDB
+
+RUN apt-get -y update && apt-get install -y net-tools wget dnsutils iputils-ping iputils-tracepath iputils-arping iputils-clockdiff
+
+# Here we are hardcoding the download mirror and the spark version. I am sure
+# there will be another and better way to do this
+RUN wget https://apache.osuosl.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop3.2.tgz
+RUN zcat spark-3.1.1-bin-hadoop3.2.tgz | tar xpof -
+
+COPY spark-env.sh /spark-3.1.1-bin-hadoop3.2/conf/
+COPY spark-worker.conf /spark-3.1.1-bin-hadoop3.2/conf/
+COPY spark-driver.conf /spark-3.1.1-bin-hadoop3.2/conf/
+COPY *.py /
+
+# Now we set environment variable that we will need in the container at runtime
+ENV SPARK_HOME=/spark-3.1.1-bin-hadoop3.2
+ENV PATH=${PATH}:${SPARK_HOME}/sbin:${SPARK_HOME}/bin
+
+# We do not start any command here but expect the docker run
+# or kubectl apply command will provide the command line to start this.
+>>>>>>> c93c0a919f4d836e61b3caf02a2c5e9fc5820d91
