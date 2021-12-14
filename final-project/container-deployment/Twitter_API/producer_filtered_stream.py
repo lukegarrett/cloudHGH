@@ -4,7 +4,7 @@ import json
 from kafka import KafkaProducer
 
 bearer_token = "AAAAAAAAAAAAAAAAAAAAAMquWwEAAAAArG%2BMVN%2BizU8VfbZHFxl7KFxgWIo%3D0wmW4dzYlxcbUJnDBYk2DN09Xfj8xWM41LHqasRvGtPs3LRQTM"
-producer = KafkaProducer (bootstrap_servers="129.114.24.229:9092", value_serializer=lambda v: json.dumps(v).encode('ascii'))
+producer = KafkaProducer (bootstrap_servers="129.114.27.196:9092", value_serializer=lambda v: json.dumps(v).encode('ascii'))
 
 def bearer_oauth(r):
     """
@@ -80,11 +80,19 @@ def get_stream(set):
         )
     for response_line in response.iter_lines():
         if response_line:
+
             json_response = json.loads(response_line)
-            data = json.dumps(json_response, indent=4, sort_keys=True)
-            print(data)
-            producer.send('tweetdata', data)
-            producer.flush()
+            dict = {'date' : 'TEMPDATE', 'text' : json_response["data"]["text"]}
+            json_dict = json.dumps(dict)
+            producer.send('tweetdata', json_dict)
+            print(json_dict)
+            producer.flush ()   # try to empty the sending buffer
+
+
+            # data = json.dumps(json_response, indent=4, sort_keys=True)
+            # print(data)
+            # producer.send('tweetdata', json_response)
+            # producer.flush()
 
 
 
