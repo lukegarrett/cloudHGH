@@ -1,0 +1,36 @@
+- hosts: MyLocalVMs
+  remote_user:  cc   # change the user to whatever is the user on the cloud VM
+  collections:   # this is new starting with Ansible 2.9 (akin to importing package)
+    - openstack.cloud
+  
+  
+  tasks:
+
+  - name: Install Ansible module openstack.cloud
+    ansible.builtin.command: ansible-galaxy collection install openstack.cloud
+
+  - name: Install Python3
+    ansible.builtin.command: sudo apt-get install python3
+
+  - name: Install openstacksdk module
+    ansible.builtin.command: python3 -m pip install openstacksdk
+
+  - name: Initialize VM01
+    openstack.cloud.server:
+        state: present
+        cloud: openstack
+        name: teamhgh_ansible_chameleon_001
+        image: CC-Ubuntu20.04
+        flavor: m1.large
+        network: CH-819381-net
+        key_name: ChameleonHGH01
+        security_groups:
+                - ENABLE_KAFKA_COUCHDB
+                - ENABLE_K8S
+                - ENABLE_SSH
+                - ENABLE_SPARK
+        timeout: 500
+        floating_ips:
+          - "{{floating_ip_01}}"
+...
+
