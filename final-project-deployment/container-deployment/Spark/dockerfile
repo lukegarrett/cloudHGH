@@ -27,7 +27,7 @@ RUN zcat spark-3.2.0-bin-hadoop3.2-scala2.13.tgz | tar xpof -
 COPY spark-env.sh /spark-3.2.0-bin-hadoop3.2-scala2.13/conf/
 COPY spark-worker.conf /spark-3.2.0-bin-hadoop3.2-scala2.13/conf/
 COPY spark-driver.conf /spark-3.2.0-bin-hadoop3.2-scala2.13/conf/
-COPY final_engine.py
+COPY final_engine.py /
 
 # Now we set environment variable that we will need in the container at runtime
 ENV SPARK_HOME=/spark-3.2.0-bin-hadoop3.2-scala2.13
