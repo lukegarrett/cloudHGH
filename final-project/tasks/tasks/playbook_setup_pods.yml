@@ -1,0 +1,38 @@
+
+    - name: start zk-svc
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/zk-svc.yaml
+    
+    - name: start zk-deployment
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/zookeeper-deployment.yaml
+
+    - name: start master service
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/kb-master-svc.yaml  
+
+    - name: start master deployment
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Master/kb-master-deployment.yaml
+
+    - name: start worker service
+      command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Worker/kb-worker-svc.yaml
+
+    # - name: start worker deployment
+    #   command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Broker-Worker/kb-worker-deployment.yaml
+    
+    # - name: couch-service
+    #   command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/CouchDB/couch-svc.yaml
+
+    # - name: couch-deploy
+    #   command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/CouchDB/couch-deployment.yaml
+
+    # - name: start consumer job
+    #   command: kubectl apply -f ~/.kube/cloudHGH/Project3/Kubernetes\ Cluster/container-deployment/Kafka-Consumer/consumer-deployment.yaml
+
+    - name: spark-driver-svc  
+      command: kubectl apply -f ~/.kube/cloudHGH/final-project/container-deployment/Spark/spark-driver-svc 
+    - name: spark-driver-deploy 
+      command: kubectl apply -f ~/.kube/cloudHGH/final-project/container-deployment/Spark/spark-driver-deploy
+    - name: spark-master-svc  
+      command: kubectl apply -f ~/.kube/cloudHGH/final-project/container-deployment/Spark/spark-master-svc
+    - name: spark-master-deploy  
+      command: kubectl apply -f ~/.kube/cloudHGH/final-project/container-deployment/Spark/spark-master-deploy
+    - name: spark-worker-deploy
+      command: kubectl apply -f ~/.kube/cloudHGH/final-project/container-deployment/Spark/spark-worker-deploy      

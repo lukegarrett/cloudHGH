@@ -1,0 +1,1 @@
+kubeadm join 10.212.96.82:6443 --token pth2vi.1xxlw063zxezk4h4 --discovery-token-ca-cert-hash sha256:025d461679c0f94d2676ea3778e65acd02e9201da0703b9af8d3c85ee80fbb6e 
