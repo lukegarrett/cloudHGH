@@ -10,11 +10,11 @@ def convertToRule():
     # early inserting first element, then trimming it off
     # so that the rest of the elements will have OR after them
     # lazy way of bounds-checking so we're not left with a trailing OR in a rule
-    thisString += ("from:" + followed[0])
+    thisString += ("@" + followed[0])
     followed = followed[1:]
 
     for name in followed:
-        thisRule = " OR from:" + name
+        thisRule = " OR @" + name
         #need to keep appending while character limit is under 500
         if(len(thisString) + len(thisRule) <= 500):
             thisString += thisRule
@@ -27,7 +27,7 @@ def convertToRule():
         else:
             ruleCollection.append(thisString)
             thisString = ""
-            thisRule = "from:" + name
+            thisRule = "@" + name
             thisString += thisRule
 
     if len(ruleCollection) != 5:
